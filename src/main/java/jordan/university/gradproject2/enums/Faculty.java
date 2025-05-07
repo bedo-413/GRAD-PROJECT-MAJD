@@ -1,0 +1,23 @@
+package jordan.university.gradproject2.enums;
+
+public enum Faculty {
+    IT,
+    ENGINEERING,
+    SCIENCE,
+    AGRICULTURE,
+    ARTS,
+    BUSINESS,
+    SHARIA,
+    LAW,
+    EDUCATIONAL_SCIENCES,
+    PHYSICAL_EDUCATION,
+    INTERNATIONAL_STUDIES,
+    FOREIGN_LANGUAGES,
+    ARTS_AND_DESIGN,
+    ARCHAEOLOGY_AND_TOURISM,
+    NURSING,
+    MEDICINE,
+    PHARMACY,
+    DENTISTRY,
+    REHABILITATION_SCIENCES
+}

@@ -1,0 +1,14 @@
+package jordan.university.gradproject2.repository;
+
+import jordan.university.gradproject2.entity.ActivityFormEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import java.util.Optional;
+
+public interface ActivityFormJpaRepository extends JpaRepository<ActivityFormEntity, Long>, JpaSpecificationExecutor<ActivityFormEntity> {
+
+    Optional<ActivityFormEntity> findById(String id);
+
+    Optional<ActivityFormEntity> deleteById(String id);
+}
