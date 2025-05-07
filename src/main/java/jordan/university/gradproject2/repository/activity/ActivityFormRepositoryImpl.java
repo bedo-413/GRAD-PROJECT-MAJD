@@ -1,16 +1,17 @@
-package jordan.university.gradproject2.repository;
+package jordan.university.gradproject2.repository.activity;
 
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.model.ActivityForm;
 
-import java.util.Optional;
+import java.util.List;
 
 public class ActivityFormRepositoryImpl implements ActivityFormRepository {
 
     private final ActivityFormJpaRepository activityFormJpaRepository;
     private final ActivityFormMapper mapper;
 
-    public ActivityFormRepositoryImpl(ActivityFormJpaRepository activityFormJpaRepository, ActivityFormMapper mapper) {
+    public ActivityFormRepositoryImpl(ActivityFormJpaRepository activityFormJpaRepository,
+                                      ActivityFormMapper mapper) {
         this.activityFormJpaRepository = activityFormJpaRepository;
         this.mapper = mapper;
     }
@@ -21,7 +22,13 @@ public class ActivityFormRepositoryImpl implements ActivityFormRepository {
     }
 
     @Override
-    public ActivityForm deleteById(String id) {
-        return mapper.toModel(activityFormJpaRepository.deleteById(id).orElse(null));
+    public void deleteById(String id) {
+        activityFormJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<ActivityForm> findAll() {
+        return mapper.toModel(activityFormJpaRepository.findAll());
+    }
+
 }

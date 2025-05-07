@@ -14,8 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ActivityForm {
     private String id;
+    private String uuid;
     private Status status;
-    private Student student;
+    private User student;
     private String supervisorName;
     private String activityType;
     private LocalDate activityDate;

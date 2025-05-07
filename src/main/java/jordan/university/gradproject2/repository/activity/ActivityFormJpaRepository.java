@@ -1,4 +1,4 @@
-package jordan.university.gradproject2.repository;
+package jordan.university.gradproject2.repository.activity;
 
 import jordan.university.gradproject2.entity.ActivityFormEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

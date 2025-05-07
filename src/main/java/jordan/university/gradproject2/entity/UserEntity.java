@@ -1,18 +1,15 @@
-package jordan.university.gradproject2.model;
+package jordan.university.gradproject2.entity;
 
 import jordan.university.gradproject2.enums.Faculty;
 import jordan.university.gradproject2.enums.Occupation;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserEntity {
     private String universityId;
     private String email;
-    private String password;
     private String phoneNumber;
     private String firstName;
     private String middleName;

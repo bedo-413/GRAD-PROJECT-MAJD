@@ -16,6 +16,9 @@ public class ActivityFormEntity {
     @Column(name = "ID")
     private String id;
 
+    @Column(name = "SYS_UUID")
+    private String uuid;
+
     @ManyToOne
     private User requester;
 
