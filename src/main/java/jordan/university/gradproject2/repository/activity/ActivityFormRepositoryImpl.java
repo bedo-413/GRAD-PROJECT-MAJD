@@ -26,6 +26,10 @@ public class ActivityFormRepositoryImpl implements ActivityFormRepository {
         activityFormJpaRepository.deleteById(id);
     }
 
+    public void save(ActivityForm activityForm) {
+        activityFormJpaRepository.save(mapper.toEntity(activityForm));
+    }
+
     @Override
     public List<ActivityForm> findAll() {
         return mapper.toModel(activityFormJpaRepository.findAll());

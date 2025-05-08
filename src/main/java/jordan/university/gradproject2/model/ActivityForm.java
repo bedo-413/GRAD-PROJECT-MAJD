@@ -1,9 +1,9 @@
 package jordan.university.gradproject2.model;
 
 import jordan.university.gradproject2.enums.Status;
+import jordan.university.gradproject2.taskcatalog.TaskCatalog;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -26,4 +26,9 @@ public class ActivityForm {
     private LocalDateTime endTime;
     private String phoneNumber;
     private String description;
+    private TaskCatalog taskCatalog;
+
+    public void run() {
+        taskCatalog.run(this);
+    }
 }

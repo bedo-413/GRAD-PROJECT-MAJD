@@ -11,4 +11,6 @@ public interface ActivityFormRepository {
     void deleteById(String id);
 
     List<ActivityForm> findAll();
+
+    void save(ActivityForm activityForm);
 }
