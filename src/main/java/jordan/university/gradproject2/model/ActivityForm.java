@@ -1,21 +1,22 @@
 package jordan.university.gradproject2.model;
 
 import jordan.university.gradproject2.enums.Status;
+import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivityForm {
+public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private String id;
-    private String uuid;
-    private Status status;
     private User student;
     private String supervisorName;
     private String activityType;
@@ -29,6 +30,6 @@ public class ActivityForm {
     private TaskCatalog taskCatalog;
 
     public void run() {
-        taskCatalog.run(this);
+        taskCatalog.run(this, getWorkflowAction());
     }
 }

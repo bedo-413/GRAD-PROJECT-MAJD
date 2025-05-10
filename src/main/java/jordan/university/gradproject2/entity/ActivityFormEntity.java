@@ -1,15 +1,18 @@
 package jordan.university.gradproject2.entity;
 
 import jakarta.persistence.*;
+import jordan.university.gradproject2.entity.base.WorkflowProcessEntity;
 import jordan.university.gradproject2.model.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class ActivityFormEntity {
+public class ActivityFormEntity extends WorkflowProcessEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

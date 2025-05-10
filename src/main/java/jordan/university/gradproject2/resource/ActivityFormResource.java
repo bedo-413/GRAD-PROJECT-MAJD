@@ -1,12 +1,15 @@
 package jordan.university.gradproject2.resource;
 
 import jordan.university.gradproject2.model.User;
+import jordan.university.gradproject2.model.WorkflowResource;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ActivityFormResource {
+public class ActivityFormResource extends WorkflowResource {
     private String id;
     private User requester;
     private String activityType;
