@@ -27,6 +27,8 @@ public abstract class ExecutableV2 implements ExecutionTask {
             Status current = activityForm.getStatus();
             Optional<Status> next = StatusTransitionManagerV2.getNextStatus(current, action);
 
+            run(activityForm);
+
             if (next.isPresent()) {
                 activityForm.setStatus(next.get());
                 log.info("Form {} moved from {} → {}", activityForm.getUuid(), current, next.get());
