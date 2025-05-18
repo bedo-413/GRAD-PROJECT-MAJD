@@ -1,5 +1,6 @@
 package jordan.university.gradproject2.controller;
 
+import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.model.ActivityForm;
 import jordan.university.gradproject2.request.ActivityFormRequest;
@@ -31,10 +32,12 @@ public class ActivityFormController {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/update-status")
-    public ActivityFormResource transitionFormAndUpdateStatus(@RequestBody ActivityFormRequest activityFormRequest) {
-        ActivityForm activityForm = activityFormMapper.toModel(activityFormRequest);
-        ActivityFormResource activityFormResource = activityFormService.transitionFormAndUpdateStatus(activityForm);
+    @PostMapping("/{uuid}/update-status/{action}")
+    public ActivityFormResource transitionFormAndUpdateStatusViaLink(
+            @PathVariable String uuid,
+            @PathVariable WorkflowAction action
+    ) {
+        ActivityFormResource activityFormResource = activityFormMapper.toResource(activityFormService.transitionFormAndUpdateStatus(uuid, action));
         return linksService.addLinks(activityFormResource, ActivityFormController.class, "transitionFormAndUpdateStatus");
     }
 
@@ -50,8 +53,7 @@ public class ActivityFormController {
     public ActivityFormResource createActivityForm(@RequestBody ActivityFormRequest request) {
         ActivityForm activityForm = activityFormMapper.toModel(request);
         ActivityFormResource activityFormResource = activityFormService.create(activityForm);
-        return activityFormResource;
-        //return linksService.addLinks(activityFormResource, ActivityFormController.class, "transitionFormAndUpdateStatus");
+        return linksService.addLinks(activityFormResource, ActivityFormController.class, "transitionFormAndUpdateStatus");
     }
 
     @ResponseStatus(OK)

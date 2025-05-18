@@ -4,6 +4,7 @@ import jordan.university.gradproject2.enums.Status;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.model.WorkflowActionResource;
 import jordan.university.gradproject2.model.WorkflowResource;
+import jordan.university.gradproject2.request.ActivityFormRequest;
 import jordan.university.gradproject2.taskcatalog.StatusTransitionManagerV2;
 
 import java.util.List;
@@ -22,29 +23,30 @@ public class LinksService {
     }
 
     public List<WorkflowActionResource> getAvailableActions(Status currentStatus, String uuid, Class<?> controllerClass, String methodName) {
-        Map<WorkflowAction, Status> transitions = StatusTransitionManagerV2.getTransitionsForStatus(currentStatus);
+        Map<WorkflowAction, Status> transitions = StatusTransitionManagerV2.getTransitionsForStatus(currentStatus); //gotta fix the way this works
         return transitions.keySet().stream()
                 .map((WorkflowAction action) -> mapToResource(action, uuid, controllerClass, methodName))
                 .collect(Collectors.toList());
     }
 
 
-    private String generateHref(WorkflowAction action, String uuid, Class<?> controllerClass, String methodName) {
-        try {
-            Object invocationValue = controllerClass
-                    .getMethod(methodName, String.class, WorkflowAction.class)
-                    .invoke(methodOn(controllerClass), uuid, action);
-            return linkTo(invocationValue).toUri().toString();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to generate href for action: " + action, e);
-        }
-    }
+//    private String generateHref(WorkflowAction action, String uuid, Class<?> controllerClass, String methodName) {
+//        try {
+//            Object invocationValue = controllerClass
+//                    .getMethod(methodName, ActivityFormRequest.class) //error here no such method exception
+//                    .invoke(methodOn(controllerClass), uuid, action);
+//            return linkTo(invocationValue).toUri().toString();
+//        } catch (Exception e) {
+//            throw new RuntimeException("Failed to generate href for action: " + action, e);
+//        }
+//    }
 
     private WorkflowActionResource mapToResource(WorkflowAction action, String uuid, Class<?> controllerClass, String methodName) {
+        String href = String.format("/api/activity-forms/%s/update-status/%s", uuid, action);
         WorkflowActionResource resource = new WorkflowActionResource();
         resource.setAction(action);
         resource.setName(action.name()); // You can customize the display name if needed
-        resource.setHref(generateHref(action, uuid, controllerClass, methodName));
+        resource.setHref(href);
         return resource;
     }
 

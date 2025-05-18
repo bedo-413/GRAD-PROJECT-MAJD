@@ -1,8 +1,10 @@
 package jordan.university.gradproject2.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jordan.university.gradproject2.entity.ActivityFormEntity;
 import jordan.university.gradproject2.entity.UserEntity;
+import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.model.ActivityForm;
@@ -39,16 +41,29 @@ public class ActivityFormService {
     }
 
 
-    public ActivityFormResource transitionFormAndUpdateStatus(ActivityForm activityForm) {
-        if (activityForm.getStudent() != null && activityForm.getStudent().getUniversityId() != null) {
-            UserEntity student = userRepository.findByUniversityId(activityForm.getStudent().getUniversityId());
-            activityForm.setStudent(userMapper.toModel(student));
+    public ActivityForm transitionFormAndUpdateStatus(String uuid, WorkflowAction action) {
+        ActivityForm form = activityFormRepository.findByUuid(uuid);
+        if (form == null) {
+            throw new EntityNotFoundException("ActivityForm with uuid " + uuid + " not found");
         }
-        activityForm.setTaskCatalog(taskCatalog);
-        activityForm.setWorkflowAction(activityForm.getWorkflowAction()); //IDK WHY WE NEED THIS FOR NOW
-        activityForm.run();
-        return activityFormMapper.toResource(activityForm);
+
+        form.setTaskCatalog(taskCatalog);
+        form.setWorkflowAction(action);
+        form.run();
+
+        return activityFormRepository.save(form);
     }
+
+//    public ActivityFormResource transitionFormAndUpdateStatus(ActivityForm activityForm) {
+//        if (activityForm.getStudent() != null && activityForm.getStudent().getUniversityId() != null) {
+//            UserEntity student = userRepository.findByUniversityId(activityForm.getStudent().getUniversityId());
+//            activityForm.setStudent(userMapper.toModel(student));
+//        }
+//        activityForm.setTaskCatalog(taskCatalog);
+//        activityForm.setWorkflowAction(activityForm.getWorkflowAction()); //IDK WHY WE NEED THIS FOR NOW
+//        activityForm.run();
+//        return activityFormMapper.toResource(activityForm);
+//    }
 
     public List<ActivityFormResource> findAll() {
         return activityFormRepository.findAll()
@@ -66,15 +81,12 @@ public class ActivityFormService {
     @Transactional
     public ActivityFormResource create(ActivityForm activityForm) {
         activityForm.setUuid(UUID.randomUUID().toString());
-
-        // Fetch the existing UserEntity for student/requester
-        String studentId = activityForm.getStudent().getUniversityId();
-        UserEntity studentEntity = userRepository.findByUniversityId(studentId);
-
+        Long studentId = activityForm.getStudent().getId();
+        if (studentId == null)
+            throw new IllegalArgumentException("Student ID cannot be null");
+        UserEntity studentEntity = userRepository.getReferenceById(studentId);
         ActivityFormEntity entity = activityFormMapper.toEntity(activityForm);
-
         entity.setStudent(studentEntity);
-
         activityFormJpaRepository.save(entity);
         return activityFormMapper.toResource(entity);
     }

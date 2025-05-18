@@ -1,15 +1,87 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Activity Form Status Update</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .status { font-weight: bold; color: #2a9d8f; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4285f4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background-color: #ffd700;
+            color: #333;
+        }
+        .status-approved {
+            background-color: #4caf50;
+            color: white;
+        }
+        .status-rejected {
+            background-color: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
-<h2>Status Update for Activity #<span th:text="${activityId}"></span></h2>
-<p>Hello <span th:text="${user}"></span>,</p>
-<p>The status of your activity has changed to <span class="status" th:text="${status}"></span>.</p>
-<p>Last updated by <span th:text="${updatedBy}"></span> on <span th:text="${updatedDate}"></span>.</p>
+<div class="header">
+    <h1>Activity Form Status Update</h1>
+</div>
+<div class="content">
+    <p>Dear <span th:text="${studentName}">Student</span>,</p>
+
+    <p>We are writing to inform you that the status of your activity form has been updated.</p>
+
+    <div>
+        <p><strong>Form ID:</strong> <span th:text="${formId}">ABC123</span></p>
+        <p><strong>Form Title:</strong> <span th:text="${formTitle}">Activity Form</span></p>
+        <p>
+            <strong>Previous Status:</strong>
+            <span th:class="${'status status-' + previousStatus.toString().toLowerCase()}"
+                  th:text="${previousStatus}">PENDING</span>
+        </p>
+        <p>
+            <strong>Current Status:</strong>
+            <span th:class="${'status status-' + currentStatus.toString().toLowerCase()}"
+                  th:text="${currentStatus}">APPROVED</span>
+        </p>
+    </div>
+
+    <p>Please log in to the system to view more details about your activity form.</p>
+
+    <p>Thank you for using our system.</p>
+
+    <p>Best regards,<br>Activity Form System</p>
+</div>
+<div class="footer">
+    <p>This is an automated message. Please do not reply to this email.</p>
+</div>
 </body>
 </html>

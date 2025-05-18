@@ -26,8 +26,8 @@ public class ActivityFormRepositoryImpl implements ActivityFormRepository {
         activityFormJpaRepository.deleteByUuid(uuid);
     }
 
-    public void save(ActivityForm activityForm) {
-        activityFormJpaRepository.save(mapper.toEntity(activityForm));
+    public ActivityForm save(ActivityForm activityForm) {
+        return mapper.toModel(activityFormJpaRepository.save(mapper.toEntity(activityForm)));
     }
 
     @Override

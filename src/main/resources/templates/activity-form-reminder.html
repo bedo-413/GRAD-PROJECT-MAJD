@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Activity Form Reminder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #ff9800;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background-color: #ffd700;
+            color: #333;
+        }
+        .status-approved {
+            background-color: #4caf50;
+            color: white;
+        }
+        .status-rejected {
+            background-color: #f44336;
+            color: white;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Activity Form Reminder</h1>
+    </div>
+    <div class="content">
+        <p>Dear <span th:text="${studentName}">Student</span>,</p>
+        
+        <p>This is a friendly reminder about your activity form that requires your attention.</p>
+        
+        <div>
+            <p><strong>Form ID:</strong> <span th:text="${formId}">ABC123</span></p>
+            <p><strong>Form Title:</strong> <span th:text="${formTitle}">Activity Form</span></p>
+            <p>
+                <strong>Current Status:</strong> 
+                <span th:class="${'status status-' + status.toString().toLowerCase()}" 
+                      th:text="${status}">PENDING</span>
+            </p>
+            <p><strong>Days in Current Status:</strong> <span th:text="${daysInStatus}">5</span></p>
+        </div>
+        
+        <p>Please log in to the system to take the necessary actions on your form.</p>
+        
+        <a href="#" class="action-button">View Activity Form</a>
+        
+        <p>Thank you for your prompt attention to this matter.</p>
+        
+        <p>Best regards,<br>Activity Form System</p>
+    </div>
+    <div class="footer">
+        <p>This is an automated message. Please do not reply to this email.</p>
+    </div>
+</body>
+</html>

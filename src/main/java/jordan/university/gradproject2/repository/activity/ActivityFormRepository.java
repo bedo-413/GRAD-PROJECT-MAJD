@@ -12,5 +12,5 @@ public interface ActivityFormRepository {
 
     List<ActivityForm> findAll();
 
-    void save(ActivityForm activityForm);
+    ActivityForm save(ActivityForm activityForm);
 }

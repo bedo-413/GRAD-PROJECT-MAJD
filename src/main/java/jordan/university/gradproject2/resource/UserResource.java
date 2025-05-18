@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class UserResource {
+    private Long id;
     private String universityId;
     private String email;
     private String phoneNumber;
