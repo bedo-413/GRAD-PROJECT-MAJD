@@ -8,4 +8,5 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Long>, JpaS
 
     UserEntity findByEmail(String email);
 
+    UserEntity findByUniversityId(String universityId);
 }

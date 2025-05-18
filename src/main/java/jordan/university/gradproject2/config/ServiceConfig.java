@@ -1,8 +1,10 @@
 package jordan.university.gradproject2.config;
 
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
+import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
+import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.service.ActivityFormService;
 import jordan.university.gradproject2.service.LinksService;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
@@ -14,14 +16,17 @@ public class ServiceConfig {
 
     @Bean
     public ActivityFormService activityFormService(ActivityFormRepository activityFormRepository,
+                                                   UserJpaRepository userJpaRepository,
                                                    ActivityFormMapper activityFormMapper,
                                                    ActivityFormJpaRepository activityFormJpaRepository,
+                                                   UserMapper userMapper,
                                                    TaskCatalog taskCatalog) {
-        return new ActivityFormService(activityFormRepository, activityFormMapper, activityFormJpaRepository, taskCatalog);
+        return new ActivityFormService(activityFormRepository, userJpaRepository, activityFormMapper, activityFormJpaRepository, userMapper, taskCatalog);
     }
 
     @Bean
     public LinksService linksService() {
         return new LinksService();
     }
+
 }

@@ -2,38 +2,48 @@ package jordan.university.gradproject2.service;
 
 import jakarta.transaction.Transactional;
 import jordan.university.gradproject2.entity.ActivityFormEntity;
+import jordan.university.gradproject2.entity.UserEntity;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
+import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.model.ActivityForm;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
+import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.resource.ActivityFormResource;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static java.util.UUID.randomUUID;
 
 @Service
 public class ActivityFormService {
     private final ActivityFormRepository activityFormRepository;
+    private final UserJpaRepository userRepository;
     private final ActivityFormMapper activityFormMapper;
     private final ActivityFormJpaRepository activityFormJpaRepository;
+    private final UserMapper userMapper;
     private final TaskCatalog taskCatalog;
 
-    public ActivityFormService(ActivityFormRepository activityFormRepository,
+    public ActivityFormService(ActivityFormRepository activityFormRepository, UserJpaRepository userRepository,
                                ActivityFormMapper activityFormMapper,
-                               ActivityFormJpaRepository activityFormJpaRepository,
+                               ActivityFormJpaRepository activityFormJpaRepository, UserMapper userMapper,
                                TaskCatalog taskCatalog) {
         this.activityFormRepository = activityFormRepository;
+        this.userRepository = userRepository;
         this.activityFormMapper = activityFormMapper;
         this.activityFormJpaRepository = activityFormJpaRepository;
+        this.userMapper = userMapper;
         this.taskCatalog = taskCatalog;
     }
 
 
     public ActivityFormResource transitionFormAndUpdateStatus(ActivityForm activityForm) {
+        if (activityForm.getStudent() != null && activityForm.getStudent().getUniversityId() != null) {
+            UserEntity student = userRepository.findByUniversityId(activityForm.getStudent().getUniversityId());
+            activityForm.setStudent(userMapper.toModel(student));
+        }
         activityForm.setTaskCatalog(taskCatalog);
         activityForm.setWorkflowAction(activityForm.getWorkflowAction()); //IDK WHY WE NEED THIS FOR NOW
         activityForm.run();
@@ -53,13 +63,22 @@ public class ActivityFormService {
 //        return activityMapper.toActivityResponse(activity);
 //    }
 
-    @Transactional //THIS SHOULD BE SIMPLE FOR NOW --> MORE VALIDATIONS AND ENRICHMENTS SHOULD BE ADDED TO IT
+    @Transactional
     public ActivityFormResource create(ActivityForm activityForm) {
-        activityForm.setUuid(randomUUID().toString());
+        activityForm.setUuid(UUID.randomUUID().toString());
+
+        // Fetch the existing UserEntity for student/requester
+        String studentId = activityForm.getStudent().getUniversityId();
+        UserEntity studentEntity = userRepository.findByUniversityId(studentId);
+
         ActivityFormEntity entity = activityFormMapper.toEntity(activityForm);
+
+        entity.setStudent(studentEntity);
+
         activityFormJpaRepository.save(entity);
         return activityFormMapper.toResource(entity);
     }
+
 
 //    @Transactional
 //    public ActivityFormResource update(Long id, ActivityForm activityForm) {
@@ -78,6 +97,6 @@ public class ActivityFormService {
     @Transactional
     public void delete(ActivityForm activityForm) {
         ActivityFormEntity entity = activityFormMapper.toEntity(activityForm);
-        activityFormRepository.deleteById(entity.getUuid());
+        activityFormRepository.deleteByUuid(entity.getUuid());
     }
 }

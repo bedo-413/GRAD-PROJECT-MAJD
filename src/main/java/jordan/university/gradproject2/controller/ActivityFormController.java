@@ -31,7 +31,7 @@ public class ActivityFormController {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/{uuid}/update-status")
+    @PostMapping("/update-status")
     public ActivityFormResource transitionFormAndUpdateStatus(@RequestBody ActivityFormRequest activityFormRequest) {
         ActivityForm activityForm = activityFormMapper.toModel(activityFormRequest);
         ActivityFormResource activityFormResource = activityFormService.transitionFormAndUpdateStatus(activityForm);
@@ -50,7 +50,8 @@ public class ActivityFormController {
     public ActivityFormResource createActivityForm(@RequestBody ActivityFormRequest request) {
         ActivityForm activityForm = activityFormMapper.toModel(request);
         ActivityFormResource activityFormResource = activityFormService.create(activityForm);
-        return linksService.addLinks(activityFormResource, ActivityFormController.class, "transitionFormAndUpdateStatus");
+        return activityFormResource;
+        //return linksService.addLinks(activityFormResource, ActivityFormController.class, "transitionFormAndUpdateStatus");
     }
 
     @ResponseStatus(OK)

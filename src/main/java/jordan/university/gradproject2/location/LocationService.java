@@ -1,7 +1,5 @@
 package jordan.university.gradproject2.location;
 
-import com.example.Graduation.Project.college.College;
-import com.example.Graduation.Project.college.CollegeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,14 +10,11 @@ import java.util.stream.Collectors;
 public class LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
-    private final CollegeRepository collegeRepository;
 
     public LocationService(LocationRepository locationRepository,
-                           LocationMapper locationMapper,
-                           CollegeRepository collegeRepository) {
+                           LocationMapper locationMapper) {
         this.locationRepository = locationRepository;
         this.locationMapper = locationMapper;
-        this.collegeRepository = collegeRepository;
     }
 
     public List<LocationResponse> findAll() {
@@ -48,10 +43,7 @@ public class LocationService {
                 .orElseThrow(() -> new RuntimeException("Location not found with id: " + id));
 
         existingLocation.setLocationName(locationRequest.getLocationName());
-
-        College college = collegeRepository.findById(locationRequest.getCollegeId())
-                .orElseThrow(() -> new RuntimeException("College not found with id: " + locationRequest.getCollegeId()));
-        existingLocation.setCollege(college);
+        existingLocation.setFaculty(locationRequest.getFaculty());
 
         Location updatedLocation = locationRepository.save(existingLocation);
         return locationMapper.toLocationResponse(updatedLocation);

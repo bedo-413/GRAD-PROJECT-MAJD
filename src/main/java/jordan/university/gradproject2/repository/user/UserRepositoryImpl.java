@@ -19,4 +19,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(userMapper.toModel(userJpaRepository.findByEmail(email)));
     }
+
+    @Override
+    public Optional<User> findByUniversityId(String universityId) {
+        return Optional.ofNullable(userMapper.toModel(userJpaRepository.findByUniversityId(universityId)));
+    }
 }

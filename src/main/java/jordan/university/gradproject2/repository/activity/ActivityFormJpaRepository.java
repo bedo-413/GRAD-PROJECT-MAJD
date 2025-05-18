@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface ActivityFormJpaRepository extends JpaRepository<ActivityFormEntity, Long>, JpaSpecificationExecutor<ActivityFormEntity> {
 
-    Optional<ActivityFormEntity> findById(String id);
+    Optional<ActivityFormEntity> findByUuid(String uuid);
 
-    Optional<ActivityFormEntity> deleteById(String id);
+    Optional<ActivityFormEntity> deleteByUuid(String uuid);
+
+
 }

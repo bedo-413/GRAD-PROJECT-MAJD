@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ActivityFormRepository {
 
-    ActivityForm findById(String id);
+    ActivityForm findByUuid(String uuid);
 
-    void deleteById(String id);
+    void deleteByUuid(String uuid);
 
     List<ActivityForm> findAll();
 

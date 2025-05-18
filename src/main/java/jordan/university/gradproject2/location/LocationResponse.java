@@ -1,5 +1,5 @@
 package jordan.university.gradproject2.location;
-import com.example.Graduation.Project.college.College;
+import jordan.university.gradproject2.enums.Faculty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +8,5 @@ import lombok.Setter;
 public class LocationResponse {
     private Long locationId;
     private String locationName;
-    private College college;
+    private Faculty faculty;
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .status { font-weight: bold; color: #2a9d8f; }
+    </style>
+</head>
+<body>
+<h2>Status Update for Activity #<span th:text="${activityId}"></span></h2>
+<p>Hello <span th:text="${user}"></span>,</p>
+<p>The status of your activity has changed to <span class="status" th:text="${status}"></span>.</p>
+<p>Last updated by <span th:text="${updatedBy}"></span> on <span th:text="${updatedDate}"></span>.</p>
+</body>
+</html>

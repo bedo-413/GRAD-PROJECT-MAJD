@@ -1,5 +1,8 @@
 package jordan.university.gradproject2.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jordan.university.gradproject2.enums.Status;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
@@ -16,7 +19,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private User student;
     private String supervisorName;
     private String activityType;

@@ -1,11 +1,17 @@
 package jordan.university.gradproject2.resource;
 
-import lombok.AllArgsConstructor;
+import jordan.university.gradproject2.enums.Faculty;
+import jordan.university.gradproject2.enums.Occupation;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserResource {
+    private String universityId;
+    private String email;
+    private String phoneNumber;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private Faculty faculty;
+    private Occupation occupation;
 }

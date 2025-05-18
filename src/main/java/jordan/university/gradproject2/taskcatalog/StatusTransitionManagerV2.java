@@ -10,7 +10,7 @@ import java.util.Optional;
 public class StatusTransitionManagerV2 {
 
     private static final Map<Status, Map<WorkflowAction, Status>> transitions = Map.ofEntries(
-            Map.entry(Status.NEW, Map.of(WorkflowAction.FORWARD, Status.PENDING_SUPERVISOR_REVIEW)),
+            Map.entry(Status.NEW, Map.of(WorkflowAction.APPROVE, Status.PENDING_SUPERVISOR_REVIEW)),
             Map.entry(Status.PENDING_SUPERVISOR_REVIEW, Map.of(
                     WorkflowAction.APPROVE, Status.SUPERVISOR_APPROVED,
                     WorkflowAction.REJECT, Status.SUPERVISOR_REJECTED

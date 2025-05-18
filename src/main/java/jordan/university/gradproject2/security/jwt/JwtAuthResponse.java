@@ -1,25 +1,18 @@
 package jordan.university.gradproject2.security.jwt;
 
-import lombok.Getter;
-import lombok.Setter;
+import jordan.university.gradproject2.model.User;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JwtAuthResponse {
     private String accessToken;
     private String tokenType = "Bearer";
-    private String userId;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String role;
+    private User user;
 
-    public JwtAuthResponse(String accessToken, String userId, String email, String firstName, String lastName, String role) {
+    public JwtAuthResponse(String accessToken, User user) {
         this.accessToken = accessToken;
-        this.userId = userId;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
+        this.user = user;
     }
 }

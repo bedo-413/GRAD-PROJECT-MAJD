@@ -2,50 +2,48 @@ package jordan.university.gradproject2.entity;
 
 import jakarta.persistence.*;
 import jordan.university.gradproject2.entity.base.WorkflowProcessEntity;
-import jordan.university.gradproject2.model.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "activity_forms")
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class ActivityFormEntity extends WorkflowProcessEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private String id;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "requester_id", nullable = false)
+    private UserEntity student;
 
-    @Column(name = "SYS_UUID")
-    private String uuid;
+    @Column(name = "supervisor_name", nullable = false)
+    private String supervisorName;
 
-    @ManyToOne
-    private User requester;
+    @Column(name = "activity_type", nullable = false)
+    private String activityType;
 
-    @ManyToOne
-    private String type;
+    @Column(name = "activity_date", nullable = false)
+    private LocalDate activityDate;
 
-    @ManyToOne
-    private User supervisor;
+    @Column(name = "organizing_entity", nullable = false)
+    private String organizingEntity;
 
-    @ManyToOne
+    @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
-
-    @Column(name = "OBJECTIVES")
-    private String objectives;
-
-    @Column(name = "START_TIME", nullable = false)
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "END_TIME", nullable = false)
+    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 }

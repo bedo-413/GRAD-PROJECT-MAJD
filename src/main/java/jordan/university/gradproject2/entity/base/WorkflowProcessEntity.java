@@ -1,5 +1,6 @@
 package jordan.university.gradproject2.entity.base;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
@@ -14,6 +15,9 @@ public class WorkflowProcessEntity extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private WorkflowAction workflowAction;
+
+    @Column(name = "STATUS")
+    private String status;
 
 //    @Enumerated(value = EnumType.STRING)
 //    private Workflow workflow;

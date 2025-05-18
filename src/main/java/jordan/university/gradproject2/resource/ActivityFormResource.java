@@ -5,19 +5,22 @@ import jordan.university.gradproject2.model.WorkflowResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ActivityFormResource extends WorkflowResource {
-    private String id;
-    private User requester;
+    private Long id;
+    private User student;
+    private String supervisorName;
     private String activityType;
-    private User supervisor;
+    private LocalDate activityDate;
+    private String organizingEntity;
     private String location;
-    private String description;
-    private String objectives;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String phoneNumber;
+    private String description;
     private LocalDateTime createdAt;
 }

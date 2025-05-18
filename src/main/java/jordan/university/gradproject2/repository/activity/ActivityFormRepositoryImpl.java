@@ -17,13 +17,13 @@ public class ActivityFormRepositoryImpl implements ActivityFormRepository {
     }
 
     @Override
-    public ActivityForm findById(String id) {
-        return mapper.toModel(activityFormJpaRepository.findById(id).orElse(null));
+    public ActivityForm findByUuid(String uuid) {
+        return mapper.toModel(activityFormJpaRepository.findByUuid(uuid).orElse(null));
     }
 
     @Override
-    public void deleteById(String id) {
-        activityFormJpaRepository.deleteById(id);
+    public void deleteByUuid(String uuid) {
+        activityFormJpaRepository.deleteByUuid(uuid);
     }
 
     public void save(ActivityForm activityForm) {
