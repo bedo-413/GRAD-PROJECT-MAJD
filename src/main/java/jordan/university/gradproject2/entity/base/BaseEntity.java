@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static java.util.Objects.nonNull;
-
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -33,8 +31,13 @@ public class BaseEntity {
 
     @PrePersist
     public void prePersistUUID() {
-        if (nonNull(uuid)) {
+        if (uuid == null) {
             uuid = UUID.randomUUID().toString();
         }
+    }
+
+    @PreUpdate
+    public void preUpdateTimestamps() {
+        lastUpdatedAt = LocalDateTime.now();
     }
 }

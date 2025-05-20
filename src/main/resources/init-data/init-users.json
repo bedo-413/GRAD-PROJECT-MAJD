@@ -1,0 +1,112 @@
+[
+  {
+    "universityId": "0000000",
+    "email": "admin@ju.edu.jo",
+    "password": "admin",
+    "phoneNumber": "0799999999",
+    "firstName": "Admin",
+    "middleName": "middle",
+    "lastName": "last",
+    "faculty": "MANAGEMENT",
+    "occupation": "ADMIN"
+  },
+  {
+    "universityId": "104760",
+    "email": "ab.assaf@ju.edu.jo",
+    "password": "professor",
+    "phoneNumber": "0777777777",
+    "firstName": "AbdAlbaset",
+    "middleName": "Ahmad",
+    "lastName": "Assaf",
+    "faculty": "IT",
+    "occupation": "PROFESSOR"
+  },
+  {
+    "universityId": "0217006",
+    "email": "bdr0217006@ju.edu.jo",
+    "password": "bader",
+    "phoneNumber": "0799454221",
+    "firstName": "Bader",
+    "middleName": "Maisara",
+    "lastName": "Fahel",
+    "faculty": "IT",
+    "occupation": "STUDENT"
+  },
+  {
+    "universityId": "0211692",
+    "email": "ahm0211692@ju.edu.jo",
+    "password": "ahmad",
+    "phoneNumber": "0796654403",
+    "firstName": "Ahmad",
+    "middleName": "Ziad",
+    "lastName": "Abu Tier",
+    "faculty": "ARTS_AND_DESIGN",
+    "occupation": "STUDENT"
+  },
+  {
+    "universityId": "9000001",
+    "email": "president@ju.edu.jo",
+    "password": "president",
+    "phoneNumber": "0791111111",
+    "firstName": "Natheer",
+    "middleName": "Ali",
+    "lastName": "Obeidat",
+    "faculty": "MANAGEMENT",
+    "occupation": "PRESIDENT"
+  },
+  {
+    "universityId": "9000002",
+    "email": "manager@ju.edu.jo",
+    "password": "manager",
+    "phoneNumber": "0792222222",
+    "firstName": "Layla",
+    "middleName": "F.",
+    "lastName": "Khatib",
+    "faculty": "MANAGEMENT",
+    "occupation": "MANAGER"
+  },
+  {
+    "universityId": "9000003",
+    "email": "dean@ju.edu.jo",
+    "password": "dean",
+    "phoneNumber": "0793333333",
+    "firstName": "Omar",
+    "middleName": "N.",
+    "lastName": "Saleh",
+    "faculty": "IT",
+    "occupation": "DEAN"
+  },
+  {
+    "universityId": "9000004",
+    "email": "assistant.dean@ju.edu.jo",
+    "password": "assistantdean",
+    "phoneNumber": "0794444444",
+    "firstName": "Sara",
+    "middleName": "W.",
+    "lastName": "Jaber",
+    "faculty": "MANAGEMENT",
+    "occupation": "ASSISTANT_DEAN"
+  },
+  {
+    "universityId": "9000005",
+    "email": "fac.assist.dean@ju.edu.jo",
+    "password": "facultyassist",
+    "phoneNumber": "0795555555",
+    "firstName": "Khaled",
+    "middleName": "H.",
+    "lastName": "Awad",
+    "faculty": "IT",
+    "occupation": "FACULTY_ASSISTANT_DEAN"
+  },
+  {
+    "universityId": "9000006",
+    "email": "fac.dean@ju.edu.jo",
+    "password": "facultydean",
+    "phoneNumber": "0796666666",
+    "firstName": "Mona",
+    "middleName": "S.",
+    "lastName": "Najjar",
+    "faculty": "IT",
+    "occupation": "FACULTY_DEAN"
+  }
+]

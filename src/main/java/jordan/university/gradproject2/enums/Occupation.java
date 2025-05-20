@@ -8,5 +8,6 @@ public enum Occupation {
     FACULTY_DEAN,
     FACULTY_ASSISTANT_DEAN,
     DEAN,
-    ASSISTANT_DEAN
+    ASSISTANT_DEAN,
+    ADMIN
 }
