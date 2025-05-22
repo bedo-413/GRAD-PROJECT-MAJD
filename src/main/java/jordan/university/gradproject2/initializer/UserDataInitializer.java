@@ -10,7 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @Profile("init-configs")
@@ -34,14 +38,43 @@ public class UserDataInitializer implements CommandLineRunner {
             return;
         }
 
-        List<UserEntity> users = mapper.readValue(inputStream, new TypeReference<List<UserEntity>>() {
-        });
+        List<UserEntity> inputUsers = mapper.readValue(inputStream, new TypeReference<>() {});
+        Map<String, UserEntity> existingUsers = userJpaRepository
+                .findAll()
+                .stream()
+                .collect(Collectors.toMap(UserEntity::getUniversityId, u -> u));
 
-        for (UserEntity user : users) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        List<UserEntity> toSave = new ArrayList<>();
+
+        for (UserEntity inputUser : inputUsers) {
+            UserEntity existing = existingUsers.get(inputUser.getUniversityId());
+
+            inputUser.setPassword(passwordEncoder.encode(inputUser.getPassword())); // Always re-hash
+
+            if (existing == null) {
+                toSave.add(inputUser); // New user
+            } else if (hasChanged(existing, inputUser)) {
+                inputUser.setId(existing.getId()); // Ensure update, not insert
+                toSave.add(inputUser); // Update if changed
+            }
         }
 
-        userJpaRepository.saveAll(users);
-        System.out.println("✅ Initial users loaded and passwords hashed.");
+        if (!toSave.isEmpty()) {
+            userJpaRepository.saveAll(toSave);
+            System.out.println("✅ Synced " + toSave.size() + " users.");
+        } else {
+            System.out.println("ℹ️ No user updates needed.");
+        }
+    }
+
+    private boolean hasChanged(UserEntity existing, UserEntity incoming) {
+        return !Objects.equals(existing.getEmail(), incoming.getEmail())
+                || !Objects.equals(existing.getPhoneNumber(), incoming.getPhoneNumber())
+                || !Objects.equals(existing.getFirstName(), incoming.getFirstName())
+                || !Objects.equals(existing.getMiddleName(), incoming.getMiddleName())
+                || !Objects.equals(existing.getLastName(), incoming.getLastName())
+                || !Objects.equals(existing.getFaculty(), incoming.getFaculty())
+                || !Objects.equals(existing.getOccupation(), incoming.getOccupation())
+                || !passwordEncoder.matches(incoming.getPassword(), existing.getPassword());
     }
 }

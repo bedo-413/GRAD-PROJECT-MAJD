@@ -13,13 +13,17 @@ import jordan.university.gradproject2.repository.activity.ActivityFormRepository
 import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.resource.ActivityFormResource;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Service
 public class ActivityFormService {
     private final ActivityFormRepository activityFormRepository;
     private final UserJpaRepository userRepository;
@@ -41,11 +45,10 @@ public class ActivityFormService {
     }
 
 
+    @Transactional
     public ActivityForm transitionFormAndUpdateStatus(String uuid, WorkflowAction action) {
-        ActivityForm form = activityFormRepository.findByUuid(uuid);
-        if (form == null) {
-            throw new EntityNotFoundException("ActivityForm with uuid " + uuid + " not found");
-        }
+        ActivityForm form = activityFormRepository.findByUuid(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("ActivityForm with uuid " + uuid + " not found"));
 
         form.setTaskCatalog(taskCatalog);
         form.setWorkflowAction(action);
@@ -53,6 +56,13 @@ public class ActivityFormService {
 
         return activityFormRepository.save(form);
     }
+
+    @Transactional
+    public ActivityForm findByUuid(String uuid) {
+        return activityFormRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ActivityForm not found"));
+    }
+
 
 //    public ActivityFormResource transitionFormAndUpdateStatus(ActivityForm activityForm) {
 //        if (activityForm.getStudent() != null && activityForm.getStudent().getUniversityId() != null) {
@@ -65,6 +75,7 @@ public class ActivityFormService {
 //        return activityFormMapper.toResource(activityForm);
 //    }
 
+    @Transactional
     public List<ActivityFormResource> findAll() {
         return activityFormRepository.findAll()
                 .stream()

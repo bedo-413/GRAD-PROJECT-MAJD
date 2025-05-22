@@ -1,13 +1,19 @@
 package jordan.university.gradproject2.controller;
 
+import jordan.university.gradproject2.entity.ActivityFormEntity;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.model.ActivityForm;
+import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.request.ActivityFormRequest;
 import jordan.university.gradproject2.resource.ActivityFormResource;
 import jordan.university.gradproject2.service.ActivityFormService;
 import jordan.university.gradproject2.service.LinksService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +29,13 @@ public class ActivityFormController {
     protected final static String ACTIVITY_FORM_URL = "/api/activity-forms";
     private final ActivityFormService activityFormService;
     private final ActivityFormMapper activityFormMapper;
+    private final ActivityFormJpaRepository formJpaRepository;
     private final LinksService linksService;
 
-    public ActivityFormController(ActivityFormService activityFormService, ActivityFormMapper activityFormMapper, LinksService linksService) {
+    public ActivityFormController(ActivityFormService activityFormService, ActivityFormMapper activityFormMapper, ActivityFormJpaRepository formJpaRepository, LinksService linksService) {
         this.activityFormService = activityFormService;
         this.activityFormMapper = activityFormMapper;
+        this.formJpaRepository = formJpaRepository;
         this.linksService = linksService;
     }
 
@@ -41,11 +49,30 @@ public class ActivityFormController {
         return linksService.addLinks(activityFormResource, ActivityFormController.class, "transitionFormAndUpdateStatus");
     }
 
+    @GetMapping("/uuid/{uuid}")
+    @ResponseStatus(HttpStatus.OK)
+    public ActivityFormResource getByUuid(@PathVariable String uuid) {
+        ActivityForm form = activityFormService.findByUuid(uuid);
+        return linksService.addLinks(activityFormMapper.toResource(form), ActivityFormController.class, "getByUuid");
+    }
+
+
     @ResponseStatus(OK)
     @GetMapping("/get-all")
     public List<ActivityFormResource> getAllActivityForms() {
         log.info("Fetching all activity forms");
         return activityFormService.findAll();
+    }
+
+    @GetMapping("/paginated")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<ActivityFormResource> getPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size
+    ) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt"), Sort.Order.asc("id")));
+        Page<ActivityFormEntity> entityPage = formJpaRepository.findAll(pageable);
+        return entityPage.map(entity -> linksService.addLinks(activityFormMapper.toResource(entity), ActivityFormController.class, "getByUuid"));
     }
 
     @ResponseStatus(CREATED)
@@ -61,6 +88,9 @@ public class ActivityFormController {
     public void deleteActivityForm(@RequestBody ActivityForm activityForm) {
         activityFormService.delete(activityForm);
     }
+
+
+
 
 //    @PostMapping
 //    public ActivityFormResource completeDecision(@RequestBody ActivityForm activityForm) {

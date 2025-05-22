@@ -5,8 +5,10 @@ import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.user.UserJpaRepository;
+import jordan.university.gradproject2.repository.user.UserRepository;
 import jordan.university.gradproject2.service.ActivityFormService;
 import jordan.university.gradproject2.service.LinksService;
+import jordan.university.gradproject2.service.UserService;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,4 +31,8 @@ public class ServiceConfig {
         return new LinksService();
     }
 
+    @Bean
+    public UserService userService(UserRepository userRepository, UserMapper userMapper) {
+        return new UserService(userRepository, userMapper);
+    }
 }

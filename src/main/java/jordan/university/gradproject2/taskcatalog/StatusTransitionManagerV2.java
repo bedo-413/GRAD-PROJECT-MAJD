@@ -24,7 +24,7 @@ public class StatusTransitionManagerV2 {
             Map.entry(Status.FACULTY_APPROVED, Map.of(WorkflowAction.APPROVE, Status.PENDING_UNION_REVIEW)),
             Map.entry(Status.FACULTY_REJECTED, Map.of(WorkflowAction.APPROVE, Status.REJECTED)),
             Map.entry(Status.PENDING_UNION_REVIEW, Map.of(WorkflowAction.APPROVE, Status.UNION_REVIEWED)),
-            Map.entry(Status.UNION_REVIEWED, Map.of(WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_REVIEW)),
+            Map.entry(Status.UNION_REVIEWED, Map.of(WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_REVIEW)), //HERE I NEED TO DO A TASK FOR THIS, IN CASE THE BOOLEAN WAS TRUE FOR THIS -> THE TASK WILL BE RUN
             Map.entry(Status.INVESTMENT_CENTER_REVIEW, Map.of(
                     WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_APPROVED,
                     WorkflowAction.REJECT, Status.INVESTMENT_CENTER_REJECTED
