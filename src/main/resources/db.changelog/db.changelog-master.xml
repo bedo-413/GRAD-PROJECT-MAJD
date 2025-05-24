@@ -11,5 +11,6 @@
     <include file="classpath:db.changelog/changes/002-create-activity-forms-table.xml"/>
     <include file="classpath:db.changelog/changes/003-create-locations-table.xml"/>
     <include file="classpath:db.changelog/changes/004-add-status-to-activity-forms.xml"/>
+    <include file="classpath:db.changelog/changes/005-create-activity-form-log-table.xml"/>
 
 </databaseChangeLog>

@@ -5,9 +5,11 @@ import jordan.university.gradproject2.enums.Status;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.model.ActivityForm;
+import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.service.EmailNotificationService;
+import jordan.university.gradproject2.service.logger.ActivityFormLoggerService;
 import jordan.university.gradproject2.taskcatalog.tasks.AutoTransitionTask;
 
 import java.util.HashMap;
@@ -20,10 +22,22 @@ public class TaskCatalog {
 
     protected final Map<Status, Supplier<ExecutionTask>> taskRegistry = new HashMap<>();
 
-    public TaskCatalog(ActivityFormRepository repository, UserJpaRepository userJpaRepository, UserMapper userMapper, EmailNotificationService emailNotificationService) {
+    public TaskCatalog(ActivityFormRepository repository,
+                       ActivityFormJpaRepository activityFormJpaRepository,
+                       UserJpaRepository userJpaRepository,
+                       UserMapper userMapper,
+                       EmailNotificationService emailNotificationService,
+                       ActivityFormLoggerService loggerService) {
+
         //taskRegistry.put(Status.SPECIAL_STATUS, () -> new SpecialTask(repository)); //Flexibility for Specialized Tasks: If certain statuses require specialized handling beyond what AutoTransitionTask provides, you can replace the corresponding entries in the taskRegistry with appropriate ExecutionTask implementations. For example:
+
         for (Status status : Status.values()) {
-            taskRegistry.put(status, () -> new AutoTransitionTask(repository, userJpaRepository, userMapper, emailNotificationService));
+            taskRegistry.put(status, () -> new AutoTransitionTask(repository,
+                    activityFormJpaRepository,
+                    userJpaRepository,
+                    userMapper,
+                    emailNotificationService,
+                    loggerService));
         }
     }
 

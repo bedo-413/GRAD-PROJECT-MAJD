@@ -1,14 +1,16 @@
 package jordan.university.gradproject2.taskcatalog;
 
 import jakarta.transaction.Transactional;
+import jordan.university.gradproject2.entity.ActivityFormEntity;
 import jordan.university.gradproject2.entity.UserEntity;
 import jordan.university.gradproject2.enums.Status;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.model.ActivityForm;
+import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.user.UserJpaRepository;
-import jordan.university.gradproject2.repository.user.UserRepository;
+import jordan.university.gradproject2.service.logger.ActivityFormLoggerService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -17,13 +19,21 @@ import java.util.Optional;
 public abstract class ExecutableV2 implements ExecutionTask {
 
     private final ActivityFormRepository activityFormRepository;
+    private final ActivityFormJpaRepository activityFormJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final UserMapper userMapper;
+    private final ActivityFormLoggerService loggerService;
 
-    protected ExecutableV2(ActivityFormRepository activityFormRepository, UserJpaRepository userJpaRepository, UserMapper userMapper) {
+    protected ExecutableV2(ActivityFormRepository activityFormRepository,
+                           ActivityFormJpaRepository activityFormJpaRepository,
+                           UserJpaRepository userJpaRepository,
+                           UserMapper userMapper,
+                           ActivityFormLoggerService loggerService) {
         this.activityFormRepository = activityFormRepository;
+        this.activityFormJpaRepository = activityFormJpaRepository;
         this.userJpaRepository = userJpaRepository;
         this.userMapper = userMapper;
+        this.loggerService = loggerService;
     }
 
     @Override
@@ -35,6 +45,7 @@ public abstract class ExecutableV2 implements ExecutionTask {
             Status current = activityForm.getStatus();
             Optional<Status> next = StatusTransitionManagerV2.getNextStatus(current, action);
 
+
             Long studentId = activityForm.getStudent().getId();
             UserEntity managedStudent = userJpaRepository.getReferenceById(studentId);
             activityForm.setStudent(userMapper.toModel(managedStudent));
@@ -45,6 +56,8 @@ public abstract class ExecutableV2 implements ExecutionTask {
                 activityForm.setStatus(next.get());
                 log.info("Form {} moved from {} → {}", activityForm.getUuid(), current, next.get());
                 activityFormRepository.save(activityForm);
+                ActivityFormEntity entity = activityFormJpaRepository.getReferenceById(activityForm.getId());
+                loggerService.log(entity, current, next.get(), action);
             } else {
                 throw new IllegalStateException("No valid transition from " + current + " using action " + action);
             }

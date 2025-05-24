@@ -6,6 +6,7 @@ import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.model.ActivityForm;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.request.ActivityFormRequest;
+import jordan.university.gradproject2.resource.ActivityFormLogResource;
 import jordan.university.gradproject2.resource.ActivityFormResource;
 import jordan.university.gradproject2.service.ActivityFormService;
 import jordan.university.gradproject2.service.LinksService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -90,22 +92,9 @@ public class ActivityFormController {
     }
 
 
-
-
-//    @PostMapping
-//    public ActivityFormResource completeDecision(@RequestBody ActivityForm activityForm) {
-//        return activityFormService.completeDecision;
-//    }
-
-    //    @GetMapping("/{id}") //MIGHT NEED THIS LATER ON -> JUST KEEPING IT COMMENTED UNTIL THEN
-//    public ActivityFormResource getActivityFormById(@PathVariable Long id) {
-//        log.info("Fetching activity form with id: {}", id);
-//        Optional<ActivityFormResource> resource = Optional.ofNullable(activityFormService.find(id));
-//
-//        return resource.map(ResponseEntity::ok)
-//                .orElseGet(() -> {
-//                    logger.warn("Activity form with id {} not found", id);
-//                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//                });
-//    }
+    @GetMapping("/{uuid}/logs")
+    public ResponseEntity<List<ActivityFormLogResource>> getLogs(@PathVariable String uuid) {
+        List<ActivityFormLogResource> logs = activityFormService.getLogsByFormUuid(uuid);
+        return ResponseEntity.ok(logs);
+    }
 }

@@ -2,9 +2,12 @@ package jordan.university.gradproject2.taskcatalog.tasks;
 
 import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.model.ActivityForm;
+import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.user.UserJpaRepository;
+import jordan.university.gradproject2.service.ActivityFormService;
 import jordan.university.gradproject2.service.EmailNotificationService;
+import jordan.university.gradproject2.service.logger.ActivityFormLoggerService;
 import jordan.university.gradproject2.taskcatalog.ExecutableV2;
 
 public class AutoTransitionTask extends ExecutableV2 {
@@ -12,9 +15,12 @@ public class AutoTransitionTask extends ExecutableV2 {
     private final EmailNotificationService emailNotificationService;
 
     public AutoTransitionTask(ActivityFormRepository repository,
+                              ActivityFormJpaRepository activityFormJpaRepository,
                               UserJpaRepository userJpaRepository,
-                              UserMapper userMapper, EmailNotificationService emailNotificationService) {
-        super(repository, userJpaRepository, userMapper);
+                              UserMapper userMapper,
+                              EmailNotificationService emailNotificationService,
+                              ActivityFormLoggerService loggerService) {
+        super(repository, activityFormJpaRepository, userJpaRepository, userMapper, loggerService);
         this.emailNotificationService = emailNotificationService;
     }
 

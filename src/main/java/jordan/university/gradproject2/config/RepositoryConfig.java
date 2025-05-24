@@ -1,10 +1,14 @@
 package jordan.university.gradproject2.config;
 
+import jordan.university.gradproject2.mapper.ActivityFormLogMapper;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepositoryImpl;
+import jordan.university.gradproject2.repository.activitylog.ActivityFormLogJpaRepository;
+import jordan.university.gradproject2.repository.activitylog.ActivityFormLogRepository;
+import jordan.university.gradproject2.repository.activitylog.ActivityFormLogRepositoryImpl;
 import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.repository.user.UserRepository;
 import jordan.university.gradproject2.repository.user.UserRepositoryImpl;
@@ -24,5 +28,11 @@ public class RepositoryConfig {
     public UserRepository userRepository(UserJpaRepository userJpaRepository,
                                          UserMapper mapper) {
         return new UserRepositoryImpl(userJpaRepository, mapper);
+    }
+
+    @Bean
+    public ActivityFormLogRepository activityFormLogRepository(ActivityFormLogJpaRepository activityFormLogJpaRepository,
+                                                               ActivityFormLogMapper activityFormLogMapper) {
+        return new ActivityFormLogRepositoryImpl(activityFormLogJpaRepository, activityFormLogMapper);
     }
 }
