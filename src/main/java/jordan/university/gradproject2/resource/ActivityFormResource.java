@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -17,6 +18,7 @@ public class ActivityFormResource extends WorkflowResource {
     private String activityType;
     private LocalDate activityDate;
     private String organizingEntity;
+    private List<String> requiredServices;
     private String location;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

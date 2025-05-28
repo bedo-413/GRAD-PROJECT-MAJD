@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class ActivityFormRequest extends WorkflowProcess<Status, WorkflowAction>
     private String activityType;
     private String activityDate;
     private String organizingEntity;
+    private List<String> requiredServices;
     private String location;
     private String startTime;
     private String endTime;

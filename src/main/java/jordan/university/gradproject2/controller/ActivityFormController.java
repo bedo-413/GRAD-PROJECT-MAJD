@@ -66,7 +66,7 @@ public class ActivityFormController {
         return activityFormService.findAll();
     }
 
-    @GetMapping("/paginated")
+        @GetMapping("/paginated")
     @ResponseStatus(HttpStatus.OK)
     public Page<ActivityFormResource> getPaginated(
             @RequestParam(defaultValue = "0") int page,

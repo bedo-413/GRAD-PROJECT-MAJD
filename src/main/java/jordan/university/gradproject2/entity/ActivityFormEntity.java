@@ -1,6 +1,7 @@
 package jordan.university.gradproject2.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Convert;
 import jordan.university.gradproject2.entity.base.WorkflowProcessEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "activity_forms")
@@ -31,6 +33,10 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
 
     @Column(name = "organizing_entity", nullable = false)
     private String organizingEntity;
+
+    @Column(name = "required_services", columnDefinition = "TEXT")
+    @Convert(converter = jordan.university.gradproject2.converter.StringListConverter.class)
+    private List<String> requiredServices;
 
     @Column(name = "location", nullable = false)
     private String location;
