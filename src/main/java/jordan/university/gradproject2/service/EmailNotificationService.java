@@ -99,7 +99,7 @@ public class EmailNotificationService implements NotificationService {
             log.info("Email notification sent to {} with subject: {}", recipient, subject);
             return toResource(savedNotification);
         } catch (Exception e) {
-            // Update email notification status
+            // Other unexpected exceptions
             emailNotification.setStatus("FAILED");
             EmailNotification savedNotification = emailNotificationRepository.save(emailNotification);
 
@@ -159,7 +159,7 @@ public class EmailNotificationService implements NotificationService {
             log.info("Simple email notification sent to {} with subject: {}", recipient, subject);
             return toResource(savedNotification);
         } catch (Exception e) {
-            // Update email notification status
+            // Other unexpected exceptions
             emailNotification.setStatus("FAILED");
             EmailNotification savedNotification = emailNotificationRepository.save(emailNotification);
 
