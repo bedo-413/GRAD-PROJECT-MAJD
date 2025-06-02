@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="010" author="developer">
+        <!-- First update any NULL supervisor_id values to use the admin user (ID 1) -->
+        <sql>
+            UPDATE ACTIVITY_FORMS 
+            SET SUPERVISOR_ID = (SELECT ID FROM USERS WHERE UNIVERSITY_ID = '0000000')
+            WHERE SUPERVISOR_ID IS NULL
+        </sql>
+
+        <!-- Then add NOT NULL constraint to SUPERVISOR_ID column -->
+        <addNotNullConstraint 
+            tableName="ACTIVITY_FORMS" 
+            columnName="SUPERVISOR_ID" 
+            columnDataType="BIGINT"/>
+    </changeSet>
+
+</databaseChangeLog>

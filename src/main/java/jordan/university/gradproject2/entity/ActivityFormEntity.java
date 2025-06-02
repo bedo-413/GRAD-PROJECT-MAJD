@@ -57,4 +57,7 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
 
     @Column(name = "rejection_reason", length = 4000)
     private String rejectionReason;
+
+    @OneToMany(mappedBy = "activityForm", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EmailNotificationEntity> emailNotifications = new ArrayList<>();
 }

@@ -19,7 +19,7 @@
         <!-- Add the supervisor_id column that references the USERS table -->
         <addColumn tableName="ACTIVITY_FORMS">
             <column name="SUPERVISOR_ID" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="FK_ACTIVITY_FORMS_SUPERVISOR" references="USERS(ID)"/>
+                <constraints nullable="true" foreignKeyName="FK_ACTIVITY_FORMS_SUPERVISOR" references="USERS(ID)"/>
             </column>
         </addColumn>
     </changeSet>

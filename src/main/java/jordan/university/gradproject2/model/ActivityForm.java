@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -36,6 +37,7 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private String description;
     private String rejectionReason;
     private TaskCatalog taskCatalog;
+    private List<EmailNotification> emailNotifications = new ArrayList<>();
 
     public void run() {
         taskCatalog.run(this, getWorkflowAction());
