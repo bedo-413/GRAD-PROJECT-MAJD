@@ -101,9 +101,10 @@ public class ActivityFormService {
         ActivityFormEntity entity = activityFormMapper.toEntity(activityForm);
         entity.setStudent(studentEntity);
         entity.setSupervisor(supervisorEntity);
+        activityFormJpaRepository.save(entity);
+        activityForm.setId(entity.getId());
         sendStudentEmail(userMapper.toModel(studentEntity), activityForm);
         //sendSupervisorEmail(userMapper.toModel(supervisorEntity), activityForm);
-        activityFormJpaRepository.save(entity);
         loggerService.log(entity, null, activityForm.getStatus(), WorkflowAction.CREATE);
         return activityFormMapper.toResource(entity);
     }

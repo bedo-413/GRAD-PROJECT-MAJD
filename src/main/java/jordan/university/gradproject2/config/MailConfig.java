@@ -40,6 +40,10 @@ public class MailConfig {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "false");
 
+        // Disable certificate validation to fix SSL handshake issues
+        props.put("mail.smtp.ssl.trust", mailHost);
+        props.put("mail.smtp.ssl.checkserveridentity", "false");
+
         return mailSender;
     }
 
