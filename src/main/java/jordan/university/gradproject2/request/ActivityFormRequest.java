@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ActivityFormRequest extends WorkflowProcess<Status, WorkflowAction> {
     private User student;
-    private String supervisorName;
+    private User supervisor;
     private String activityType;
     private String activityDate;
     private String organizingEntity;
@@ -25,4 +25,5 @@ public class ActivityFormRequest extends WorkflowProcess<Status, WorkflowAction>
     private String endTime;
     private String phoneNumber;
     private String description;
+    private String rejectionReason;
 }

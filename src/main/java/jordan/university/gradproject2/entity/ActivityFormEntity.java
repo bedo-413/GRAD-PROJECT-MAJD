@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,9 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
     @JoinColumn(name = "requester_id", nullable = false)
     private UserEntity student;
 
-    @Column(name = "supervisor_name", nullable = false)
-    private String supervisorName;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "supervisor_id", nullable = false)
+    private UserEntity supervisor;
 
     @Column(name = "activity_type", nullable = false)
     private String activityType;
@@ -52,4 +54,7 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "rejection_reason", length = 4000)
+    private String rejectionReason;
 }

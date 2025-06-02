@@ -47,8 +47,11 @@ public abstract class ExecutableV2 implements ExecutionTask {
 
 
             Long studentId = activityForm.getStudent().getId();
+            Long supervisorId = activityForm.getSupervisor().getId();
             UserEntity managedStudent = userJpaRepository.getReferenceById(studentId);
+            UserEntity managedSupervisor = userJpaRepository.getReferenceById(supervisorId);
             activityForm.setStudent(userMapper.toModel(managedStudent));
+            activityForm.setSupervisor(userMapper.toModel(managedSupervisor));
 
             run(activityForm);
 

@@ -86,9 +86,15 @@ public class ActivityFormService {
         if (studentId == null) {
             throw new IllegalArgumentException("Student ID cannot be null");
         }
+        Long supervisorId = activityForm.getSupervisor().getId();
+        if (supervisorId == null) {
+            throw new IllegalArgumentException("Supervisor ID cannot be null");
+        }
         UserEntity studentEntity = userRepository.getReferenceById(studentId);
+        UserEntity supervisorEntity = userRepository.getReferenceById(supervisorId);
         ActivityFormEntity entity = activityFormMapper.toEntity(activityForm);
         entity.setStudent(studentEntity);
+        entity.setSupervisor(supervisorEntity);
         activityFormJpaRepository.save(entity);
         loggerService.log(entity, null, activityForm.getStatus(), WorkflowAction.CREATE);
         return activityFormMapper.toResource(entity);

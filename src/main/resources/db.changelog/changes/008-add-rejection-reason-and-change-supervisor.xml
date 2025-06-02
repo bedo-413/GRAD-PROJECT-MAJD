@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="008" author="developer">
+        <!-- Add the rejection_reason column to ACTIVITY_FORMS table -->
+        <addColumn tableName="ACTIVITY_FORMS">
+            <column name="REJECTION_REASON" type="VARCHAR(4000)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <!-- Drop the supervisor_name column -->
+        <dropColumn tableName="ACTIVITY_FORMS" columnName="SUPERVISOR_NAME"/>
+
+        <!-- Add the supervisor_id column that references the USERS table -->
+        <addColumn tableName="ACTIVITY_FORMS">
+            <column name="SUPERVISOR_ID" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_ACTIVITY_FORMS_SUPERVISOR" references="USERS(ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

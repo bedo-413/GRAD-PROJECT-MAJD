@@ -14,7 +14,7 @@ import java.util.List;
 public class ActivityFormResource extends WorkflowResource {
     private Long id;
     private User student;
-    private String supervisorName;
+    private User supervisor;
     private String activityType;
     private LocalDate activityDate;
     private String organizingEntity;
@@ -24,5 +24,6 @@ public class ActivityFormResource extends WorkflowResource {
     private LocalDateTime endTime;
     private String phoneNumber;
     private String description;
+    private String rejectionReason;
     private LocalDateTime createdAt;
 }

@@ -24,7 +24,7 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private User student;
-    private String supervisorName;
+    private User supervisor;
     private String activityType;
     private LocalDate activityDate;
     private String organizingEntity;
@@ -34,6 +34,7 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private LocalDateTime endTime;
     private String phoneNumber;
     private String description;
+    private String rejectionReason;
     private TaskCatalog taskCatalog;
 
     public void run() {
