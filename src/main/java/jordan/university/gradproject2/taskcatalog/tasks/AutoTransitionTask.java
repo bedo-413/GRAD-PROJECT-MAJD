@@ -48,23 +48,23 @@ public class AutoTransitionTask extends ExecutableV2 {
         }
 
         // Send email to supervisor if available
-        if (supervisor != null) {
-            // Prepare data for supervisor email
-            String supervisorContent = emailNotificationService.createEmailContent(activityForm, supervisor, false);
-
-            // Get supervisor email from the User model
-            String supervisorEmail = supervisor.getEmail();
-
-            // Send notification to supervisor if email is available
-            if (supervisorEmail != null && !supervisorEmail.isEmpty()) {
-                emailNotificationService.sendSimpleNotification(
-                        supervisorEmail,
-                        subject,
-                        supervisorContent,
-                        activityForm
-                );
-            }
-        }
+//        if (supervisor != null) {
+//            // Prepare data for supervisor email
+//            String supervisorContent = emailNotificationService.createEmailContent(activityForm, supervisor, false);
+//
+//            // Get supervisor email from the User model
+//            String supervisorEmail = supervisor.getEmail();
+//
+//            // Send notification to supervisor if email is available
+//            if (supervisorEmail != null && !supervisorEmail.isEmpty()) {
+//                emailNotificationService.sendSimpleNotification(
+//                        supervisorEmail,
+//                        subject,
+//                        supervisorContent,
+//                        activityForm
+//                );
+//            }
+//        }
 
         // Send email to status-based recipient if configured
         String statusRecipient = emailNotificationService.getStatusBasedRecipient(currentStatus);

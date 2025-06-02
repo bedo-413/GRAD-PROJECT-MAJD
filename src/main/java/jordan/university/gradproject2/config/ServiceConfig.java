@@ -9,6 +9,7 @@ import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.repository.user.UserRepository;
 import jordan.university.gradproject2.security.SecurityUtilService;
 import jordan.university.gradproject2.service.ActivityFormService;
+import jordan.university.gradproject2.service.EmailNotificationService;
 import jordan.university.gradproject2.service.LinksService;
 import jordan.university.gradproject2.service.UserService;
 import jordan.university.gradproject2.service.logger.ActivityFormLoggerService;
@@ -26,9 +27,11 @@ public class ServiceConfig {
                                                    ActivityFormJpaRepository activityFormJpaRepository,
                                                    TaskCatalog taskCatalog,
                                                    ActivityFormLogRepository formLogRepository,
-                                                   ActivityFormLoggerService activityFormLoggerService) {
+                                                   ActivityFormLoggerService activityFormLoggerService,
+                                                   EmailNotificationService emailNotificationService,
+                                                   UserMapper userMapper) {
         return new ActivityFormService(activityFormRepository, userJpaRepository, activityFormMapper, activityFormJpaRepository,
-                taskCatalog,  formLogRepository, activityFormLoggerService);
+                taskCatalog,  formLogRepository, activityFormLoggerService, emailNotificationService, userMapper);
     }
 
     @Bean

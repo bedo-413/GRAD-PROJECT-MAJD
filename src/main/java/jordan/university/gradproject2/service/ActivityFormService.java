@@ -6,7 +6,9 @@ import jordan.university.gradproject2.entity.ActivityFormEntity;
 import jordan.university.gradproject2.entity.UserEntity;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
+import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.model.ActivityForm;
+import jordan.university.gradproject2.model.User;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.activitylog.ActivityFormLogRepository;
@@ -30,6 +32,8 @@ public class ActivityFormService {
     private final TaskCatalog taskCatalog;
     private final ActivityFormLogRepository formLogRepository;
     private final ActivityFormLoggerService loggerService;
+    private final EmailNotificationService emailNotificationService;
+    private final UserMapper userMapper;
 
     public ActivityFormService(ActivityFormRepository activityFormRepository,
                                UserJpaRepository userRepository,
@@ -37,7 +41,7 @@ public class ActivityFormService {
                                ActivityFormJpaRepository activityFormJpaRepository,
                                TaskCatalog taskCatalog,
                                ActivityFormLogRepository formLogRepository,
-                               ActivityFormLoggerService loggerService) {
+                               ActivityFormLoggerService loggerService, EmailNotificationService emailNotificationService, UserMapper userMapper) {
         this.activityFormRepository = activityFormRepository;
         this.userRepository = userRepository;
         this.activityFormMapper = activityFormMapper;
@@ -45,6 +49,8 @@ public class ActivityFormService {
         this.taskCatalog = taskCatalog;
         this.formLogRepository = formLogRepository;
         this.loggerService = loggerService;
+        this.emailNotificationService = emailNotificationService;
+        this.userMapper = userMapper;
     }
 
 
@@ -95,9 +101,40 @@ public class ActivityFormService {
         ActivityFormEntity entity = activityFormMapper.toEntity(activityForm);
         entity.setStudent(studentEntity);
         entity.setSupervisor(supervisorEntity);
+        sendStudentEmail(userMapper.toModel(studentEntity), activityForm);
+        //sendSupervisorEmail(userMapper.toModel(supervisorEntity), activityForm);
         activityFormJpaRepository.save(entity);
         loggerService.log(entity, null, activityForm.getStatus(), WorkflowAction.CREATE);
         return activityFormMapper.toResource(entity);
+    }
+
+    private void sendStudentEmail(User student, ActivityForm activityForm) {
+        if (student != null && student.getEmail() != null) {
+            String studentContent = emailNotificationService.createEmailContent(activityForm, student, true);
+            String subject = "Activity Form Status Update - " + activityForm.getStatus();
+            emailNotificationService.sendSimpleNotification(
+                    student.getEmail(),
+                    subject,
+                    studentContent,
+                    activityForm
+            );
+        }
+    }
+
+    private void sendSupervisorEmail(User supervisor, ActivityForm activityForm) {
+        if (supervisor != null) {
+            String supervisorContent = emailNotificationService.createEmailContent(activityForm, supervisor, false);
+            String subject = "Activity Form Status Update - " + activityForm.getStatus();
+            String supervisorEmail = supervisor.getEmail();
+            if (supervisorEmail != null && !supervisorEmail.isEmpty()) {
+                emailNotificationService.sendSimpleNotification(
+                        supervisorEmail,
+                        subject,
+                        supervisorContent,
+                        activityForm
+                );
+            }
+        }
     }
 
     @Transactional
