@@ -60,17 +60,12 @@
     <p>We are writing to inform you that the status of your activity form has been updated.</p>
 
     <div>
-        <p><strong>Form ID:</strong> <span th:text="${formId}">ABC123</span></p>
-        <p><strong>Form Title:</strong> <span th:text="${formTitle}">Activity Form</span></p>
-        <p>
-            <strong>Previous Status:</strong>
-            <span th:class="${'status status-' + previousStatus.toString().toLowerCase()}"
-                  th:text="${previousStatus}">PENDING</span>
-        </p>
+        <p><strong>Form UUID:</strong> <span th:text="${formUuid}"></span></p>
+        <p><strong>Form Title:</strong> <span th:text="${formTitle}"></span></p>
         <p>
             <strong>Current Status:</strong>
-            <span th:class="${'status status-' + currentStatus.toString().toLowerCase()}"
-                  th:text="${currentStatus}">APPROVED</span>
+            <span th:class="'status status-' + ${currentStatus}"
+                  th:text="${currentStatus}"></span>
         </p>
     </div>
 

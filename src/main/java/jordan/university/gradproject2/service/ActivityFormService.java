@@ -111,12 +111,10 @@ public class ActivityFormService {
 
     private void sendStudentEmail(User student, ActivityForm activityForm) {
         if (student != null && student.getEmail() != null) {
-            String studentContent = emailNotificationService.createEmailContent(activityForm, student, true);
             String subject = "Activity Form Status Update - " + activityForm.getStatus();
-            emailNotificationService.sendSimpleNotification(
+            emailNotificationService.sendNotification(
                     student.getEmail(),
                     subject,
-                    studentContent,
                     activityForm
             );
         }
@@ -124,14 +122,12 @@ public class ActivityFormService {
 
     private void sendSupervisorEmail(User supervisor, ActivityForm activityForm) {
         if (supervisor != null) {
-            String supervisorContent = emailNotificationService.createEmailContent(activityForm, supervisor, false);
             String subject = "Activity Form Status Update - " + activityForm.getStatus();
             String supervisorEmail = supervisor.getEmail();
             if (supervisorEmail != null && !supervisorEmail.isEmpty()) {
-                emailNotificationService.sendSimpleNotification(
+                emailNotificationService.sendNotification(
                         supervisorEmail,
                         subject,
-                        supervisorContent,
                         activityForm
                 );
             }

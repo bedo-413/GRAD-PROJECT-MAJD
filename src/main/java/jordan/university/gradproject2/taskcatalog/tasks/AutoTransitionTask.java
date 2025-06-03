@@ -36,13 +36,11 @@ public class AutoTransitionTask extends ExecutableV2 {
         // Send email to student if available
         if (student != null && student.getEmail() != null) {
             // Prepare data for student email
-            String studentContent = emailNotificationService.createEmailContent(activityForm, student, true);
 
             // Send notification to student
-            emailNotificationService.sendSimpleNotification(
+            emailNotificationService.sendNotification(
                     student.getEmail(),
                     subject,
-                    studentContent,
                     activityForm
             );
         }
@@ -50,17 +48,15 @@ public class AutoTransitionTask extends ExecutableV2 {
         // Send email to supervisor if available
 //        if (supervisor != null) {
 //            // Prepare data for supervisor email
-//            String supervisorContent = emailNotificationService.createEmailContent(activityForm, supervisor, false);
 //
 //            // Get supervisor email from the User model
 //            String supervisorEmail = supervisor.getEmail();
 //
 //            // Send notification to supervisor if email is available
 //            if (supervisorEmail != null && !supervisorEmail.isEmpty()) {
-//                emailNotificationService.sendSimpleNotification(
+//                emailNotificationService.sendNotification(
 //                        supervisorEmail,
 //                        subject,
-//                        supervisorContent,
 //                        activityForm
 //                );
 //            }
@@ -69,26 +65,11 @@ public class AutoTransitionTask extends ExecutableV2 {
         // Send email to status-based recipient if configured
         String statusRecipient = emailNotificationService.getStatusBasedRecipient(currentStatus);
         if (statusRecipient != null && !statusRecipient.isEmpty()) {
-            // Create generic content for status-based recipient
-            String genericContent = "An activity form has been updated to status: " + currentStatus + ".\n\n" +
-                    "Activity Details:\n" +
-                    "- Activity Type: " + activityForm.getActivityType() + "\n" +
-                    "- Activity Date: " + activityForm.getActivityDate() + "\n" +
-                    "- Organizing Entity: " + activityForm.getOrganizingEntity() + "\n" +
-                    "- Location: " + activityForm.getLocation() + "\n" +
-                    "- Start Time: " + activityForm.getStartTime() + "\n" +
-                    "- End Time: " + activityForm.getEndTime() + "\n" +
-                    "- Description: " + activityForm.getDescription() + "\n\n" +
-                    "Student: " + (student != null ? student.getFirstName() + " " + student.getLastName() : "N/A") + "\n" +
-                    "Supervisor: " + (supervisor != null ? supervisor.getFirstName() + " " + supervisor.getLastName() : "N/A") + "\n\n" +
-                    "Please log in to the system for more details.\n\n" +
-                    "Best regards,\nGraduation Project System";
 
             // Send notification to status-based recipient
-            emailNotificationService.sendSimpleNotification(
+            emailNotificationService.sendNotification(
                     statusRecipient,
                     subject,
-                    genericContent,
                     activityForm
             );
         }
