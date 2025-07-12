@@ -20,5 +20,6 @@
     <include file="classpath:db.changelog/changes/012-add-is-pass-through-to-activity-forms.xml"/>
     <include file="classpath:db.changelog/changes/013-create-app-configs-table.xml"/>
     <include file="classpath:db.changelog/changes/014-add-sponsors-to-activity-forms.xml"/>
+    <include file="classpath:db.changelog/changes/015-add-remarks-to-activity-forms.xml"/>
 
 </databaseChangeLog>
