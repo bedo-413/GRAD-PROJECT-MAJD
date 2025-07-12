@@ -58,4 +58,9 @@ public class AppConfigController {
     public void deleteConfig(@PathVariable String key) {
         appConfigService.deleteByKey(key);
     }
+
+    @GetMapping("/uuid/{uuid}")
+    public AppConfigResource getConfigByUuid(@PathVariable String uuid) {
+        return appConfigService.findByUuid(uuid);
+    }
 }

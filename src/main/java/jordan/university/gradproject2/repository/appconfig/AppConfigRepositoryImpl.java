@@ -50,4 +50,10 @@ public class AppConfigRepositoryImpl implements AppConfigRepository {
     public boolean existsByKey(String key) {
         return appConfigJpaRepository.existsByKey(key);
     }
+
+    @Override
+    public Optional<AppConfig> findByUuid(String uuid) {
+        return appConfigJpaRepository.findByUuid(uuid)
+                .map(appConfigMapper::toModel);
+    }
 }

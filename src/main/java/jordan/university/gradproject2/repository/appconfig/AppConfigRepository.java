@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface AppConfigRepository {
     List<AppConfig> findAll();
     Optional<AppConfig> findByKey(String key);
+    Optional<AppConfig> findByUuid(String uuid);
     AppConfig save(AppConfig appConfig);
     void deleteByKey(String key);
     boolean existsByKey(String key);

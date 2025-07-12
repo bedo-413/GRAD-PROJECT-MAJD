@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface AppConfigJpaRepository extends JpaRepository<AppConfigEntity, Long> {
     Optional<AppConfigEntity> findByKey(String key);
+    Optional<AppConfigEntity> findByUuid(String uuid);
     boolean existsByKey(String key);
 }

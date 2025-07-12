@@ -52,4 +52,11 @@ public class AppConfigService {
     public boolean existsByKey(String key) {
         return appConfigRepository.existsByKey(key);
     }
+
+    @Transactional
+    public AppConfigResource findByUuid(String uuid) {
+        return appConfigRepository.findByUuid(uuid)
+                .map(appConfigMapper::toResource)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Configuration with UUID " + uuid + " not found"));
+    }
 }
