@@ -44,6 +44,7 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private boolean isPassThrough;
     private boolean hasSponsors;
     private List<String> sponsors;
+    private List<String> remarks;
 
     public void run() {
         taskCatalog.run(this, getWorkflowAction());

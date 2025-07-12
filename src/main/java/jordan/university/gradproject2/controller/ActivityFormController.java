@@ -6,6 +6,7 @@ import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.model.ActivityForm;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
 import jordan.university.gradproject2.request.ActivityFormRequest;
+import jordan.university.gradproject2.request.AddRemarksRequest;
 import jordan.university.gradproject2.resource.ActivityFormLogResource;
 import jordan.university.gradproject2.resource.ActivityFormResource;
 import jordan.university.gradproject2.service.ActivityFormService;
@@ -96,5 +97,15 @@ public class ActivityFormController {
     public ResponseEntity<List<ActivityFormLogResource>> getLogs(@PathVariable String uuid) {
         List<ActivityFormLogResource> logs = activityFormService.getLogsByFormUuid(uuid);
         return ResponseEntity.ok(logs);
+    }
+
+    @ResponseStatus(OK)
+    @PostMapping("/{uuid}/remarks")
+    public ActivityFormResource addRemarks(
+            @PathVariable String uuid,
+            @RequestBody AddRemarksRequest request
+    ) {
+        ActivityFormResource activityFormResource = activityFormService.addRemarks(uuid, request.getRemarks());
+        return linksService.addLinks(activityFormResource, ActivityFormController.class, "getByUuid");
     }
 }

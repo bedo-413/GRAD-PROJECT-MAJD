@@ -31,4 +31,5 @@ public class ActivityFormRequest extends WorkflowProcess<Status, WorkflowAction>
     private boolean isPassThrough;
     private boolean hasSponsors;
     private List<String> sponsors;
+    private List<String> remarks;
 }

@@ -75,4 +75,8 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
     @Column(name = "sponsors", columnDefinition = "TEXT")
     @Convert(converter = StringListConverter.class)
     private List<String> sponsors;
+
+    @Column(name = "remarks", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> remarks;
 }

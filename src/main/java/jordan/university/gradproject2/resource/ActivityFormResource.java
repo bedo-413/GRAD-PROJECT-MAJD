@@ -30,4 +30,5 @@ public class ActivityFormResource extends WorkflowResource {
     private boolean isPassThrough;
     private boolean hasSponsors;
     private List<String> sponsors;
+    private List<String> remarks;
 }

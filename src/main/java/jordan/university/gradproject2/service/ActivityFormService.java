@@ -159,4 +159,18 @@ public class ActivityFormService {
         }
     }
 
+    @Transactional
+    public ActivityFormResource addRemarks(String uuid, List<String> remarks) {
+        ActivityForm form = activityFormRepository.findByUuid(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("ActivityForm with uuid " + uuid + " not found"));
+
+        if (form.getRemarks() == null) {
+            form.setRemarks(remarks);
+        } else {
+            form.getRemarks().addAll(remarks);
+        }
+
+        ActivityForm savedForm = activityFormRepository.save(form);
+        return activityFormMapper.toResource(savedForm);
+    }
 }
