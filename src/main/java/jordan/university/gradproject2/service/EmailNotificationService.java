@@ -10,6 +10,7 @@ import jordan.university.gradproject2.repository.activity.ActivityFormJpaReposit
 import jordan.university.gradproject2.repository.email.EmailNotificationRepository;
 import jordan.university.gradproject2.request.EmailNotificationRequest;
 import jordan.university.gradproject2.resource.EmailNotificationResource;
+import jordan.university.gradproject2.taskcatalog.StatusTransitionManagerV2;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,9 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
+import static jordan.university.gradproject2.enums.WorkflowAction.APPROVE;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +44,9 @@ public class EmailNotificationService implements NotificationService {
 
     @Value("${application.name:Activity Form System}")
     private String applicationName;
+
+    @Value("${application.base-url:http://localhost:8081}")
+    private String baseUrl;
 
     @Override
     public void sendNotification(String recipient, String subject, ActivityForm activityForm) {
@@ -62,7 +69,9 @@ public class EmailNotificationService implements NotificationService {
             context.setVariable("studentName", activityForm.getStudent().getFirstName() + " " + activityForm.getStudent().getLastName());
             context.setVariable("formUuid", activityForm.getUuid());
             context.setVariable("formTitle", activityForm.getActivityType());
-            context.setVariable("currentStatus", activityForm.getStatus().name());
+            context.setVariable("previousStatus", activityForm.getStatus().name());
+            context.setVariable("currentStatus", StatusTransitionManagerV2.getNextStatus(activityForm, activityForm.getStatus(), nonNull(activityForm.getWorkflowAction()) ? activityForm.getWorkflowAction() : APPROVE).get().name());
+            context.setVariable("baseUrl", baseUrl);
 
             String content = templateEngine.process("activity-status-update", context);
             helper.setText(content, true);
@@ -86,7 +95,7 @@ public class EmailNotificationService implements NotificationService {
         List<EmailNotification> notifications = emailNotificationRepository.findByRecipient(recipient);
         for (EmailNotification notification : notifications) {
             if (notification.getSubject().equals(subject) &&
-                    (notification.getStatus().equals("PENDING") || notification.getStatus().equals("FAILED"))) {
+                    ("PENDING".equals(notification.getStatus()) || "FAILED".equals(notification.getStatus()))) {
                 notification.setStatus(status);
                 if ("SENT".equals(status)) {
                     notification.setSentAt(LocalDateTime.now());

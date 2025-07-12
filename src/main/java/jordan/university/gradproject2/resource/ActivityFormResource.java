@@ -1,7 +1,7 @@
 package jordan.university.gradproject2.resource;
 
-import jordan.university.gradproject2.model.User;
 import jordan.university.gradproject2.model.WorkflowResource;
+import jordan.university.gradproject2.validation.ValidationError;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,8 +13,8 @@ import java.util.List;
 @Data
 public class ActivityFormResource extends WorkflowResource {
     private Long id;
-    private User student;
-    private User supervisor;
+    private UserResource student;
+    private UserResource supervisor;
     private String activityType;
     private LocalDate activityDate;
     private String organizingEntity;
@@ -26,4 +26,6 @@ public class ActivityFormResource extends WorkflowResource {
     private String description;
     private String rejectionReason;
     private LocalDateTime createdAt;
+    private List<ValidationError> errors;
+    private boolean isPassThrough;
 }

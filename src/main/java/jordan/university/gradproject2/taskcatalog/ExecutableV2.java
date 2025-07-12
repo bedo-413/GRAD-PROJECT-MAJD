@@ -43,7 +43,7 @@ public abstract class ExecutableV2 implements ExecutionTask {
             log.info("Started Task for form uuid {} with status {}", activityForm.getUuid(), activityForm.getStatus());
 
             Status current = activityForm.getStatus();
-            Optional<Status> next = StatusTransitionManagerV2.getNextStatus(current, action);
+            Optional<Status> next = StatusTransitionManagerV2.getNextStatus(activityForm, current, action);
 
 
             Long studentId = activityForm.getStudent().getId();

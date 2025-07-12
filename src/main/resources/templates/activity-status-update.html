@@ -30,6 +30,15 @@
             color: #777;
             text-align: center;
         }
+        .action-button {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
         .status {
             display: inline-block;
             padding: 5px 10px;
@@ -63,6 +72,11 @@
         <p><strong>Form UUID:</strong> <span th:text="${formUuid}"></span></p>
         <p><strong>Form Title:</strong> <span th:text="${formTitle}"></span></p>
         <p>
+            <strong>Previous Status:</strong>
+            <span th:class="'status status-' + ${previousStatus}"
+                  th:text="${previousStatus}"></span>
+        </p>
+        <p>
             <strong>Current Status:</strong>
             <span th:class="'status status-' + ${currentStatus}"
                   th:text="${currentStatus}"></span>
@@ -70,6 +84,8 @@
     </div>
 
     <p>Please log in to the system to view more details about your activity form.</p>
+
+    <a th:href="${baseUrl + '/api/activity-forms/uuid/' + formUuid}" class="action-button">View Activity Form</a>
 
     <p>Thank you for using our system.</p>
 

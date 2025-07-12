@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="011" author="developer">
+        <createTable tableName="WORKING_DAYS">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DAY_OF_WEEK" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="IS_WORKING_DAY" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="HOLIDAY_NAME" type="VARCHAR(100)"/>
+            <column name="CREATED_AT" type="DATE"/>
+            <column name="LAST_UPDATED_AT" type="TIMESTAMP"/>
+            <column name="SYS_UUID" type="VARCHAR(36)"/>
+        </createTable>
+
+        <!-- Initialize with default values for each day of the week -->
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="MONDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="true"/>
+            <column name="DESCRIPTION" value="Regular working day"/>
+        </insert>
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="TUESDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="true"/>
+            <column name="DESCRIPTION" value="Regular working day"/>
+        </insert>
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="WEDNESDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="true"/>
+            <column name="DESCRIPTION" value="Regular working day"/>
+        </insert>
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="THURSDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="true"/>
+            <column name="DESCRIPTION" value="Regular working day"/>
+        </insert>
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="FRIDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="false"/>
+            <column name="DESCRIPTION" value="Weekend"/>
+            <column name="HOLIDAY_NAME" value="Weekend"/>
+        </insert>
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="SATURDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="false"/>
+            <column name="DESCRIPTION" value="Weekend"/>
+            <column name="HOLIDAY_NAME" value="Weekend"/>
+        </insert>
+        <insert tableName="WORKING_DAYS">
+            <column name="DAY_OF_WEEK" value="SUNDAY"/>
+            <column name="IS_WORKING_DAY" valueBoolean="true"/>
+            <column name="DESCRIPTION" value="Regular working day"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

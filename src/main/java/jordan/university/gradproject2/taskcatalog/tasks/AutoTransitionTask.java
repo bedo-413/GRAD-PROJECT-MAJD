@@ -27,17 +27,12 @@ public class AutoTransitionTask extends ExecutableV2 {
 
     @Override
     protected void run(ActivityForm activityForm) {
-        // Send email notifications to both student and supervisor
         User student = activityForm.getStudent();
         User supervisor = activityForm.getSupervisor();
         Status currentStatus = activityForm.getStatus();
         String subject = "Activity Form Status Update - " + currentStatus;
 
-        // Send email to student if available
         if (student != null && student.getEmail() != null) {
-            // Prepare data for student email
-
-            // Send notification to student
             emailNotificationService.sendNotification(
                     student.getEmail(),
                     subject,

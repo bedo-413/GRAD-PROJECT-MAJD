@@ -14,11 +14,15 @@ import org.mapstruct.MappingTarget;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface ActivityFormMapper {
 
+    @Mapping(target = "student", source = "student")
+    @Mapping(target = "supervisor", source = "supervisor")
     ActivityFormResource toResource(ActivityFormEntity entity);
 
+    @Mapping(target = "student", source = "student")
+    @Mapping(target = "supervisor", source = "supervisor")
     ActivityFormResource toResource(ActivityForm model);
 
     List<ActivityFormResource> toResource(List<ActivityForm> model);
@@ -31,6 +35,8 @@ public interface ActivityFormMapper {
     List<ActivityForm> toModel(List<ActivityFormEntity> entity);
 
     @Mapping(target = "emailNotifications", ignore = true)
+    @Mapping(target = "student", source = "student")
+    @Mapping(target = "supervisor", source = "supervisor")
     ActivityFormEntity toEntity(ActivityForm model);
 
     @Mapping(target = "activityForm", ignore = true)

@@ -2,6 +2,7 @@ package jordan.university.gradproject2.config;
 
 import jordan.university.gradproject2.mapper.ActivityFormLogMapper;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
+import jordan.university.gradproject2.mapper.AppConfigMapper;
 import jordan.university.gradproject2.mapper.EmailNotificationMapper;
 import jordan.university.gradproject2.mapper.UserMapper;
 import jordan.university.gradproject2.repository.activity.ActivityFormJpaRepository;
@@ -10,6 +11,9 @@ import jordan.university.gradproject2.repository.activity.ActivityFormRepository
 import jordan.university.gradproject2.repository.activitylog.ActivityFormLogJpaRepository;
 import jordan.university.gradproject2.repository.activitylog.ActivityFormLogRepository;
 import jordan.university.gradproject2.repository.activitylog.ActivityFormLogRepositoryImpl;
+import jordan.university.gradproject2.repository.appconfig.AppConfigJpaRepository;
+import jordan.university.gradproject2.repository.appconfig.AppConfigRepository;
+import jordan.university.gradproject2.repository.appconfig.AppConfigRepositoryImpl;
 import jordan.university.gradproject2.repository.email.EmailNotificationJpaRepository;
 import jordan.university.gradproject2.repository.email.EmailNotificationRepository;
 import jordan.university.gradproject2.repository.email.EmailNotificationRepositoryImpl;
@@ -44,5 +48,11 @@ public class RepositoryConfig {
     public EmailNotificationRepository emailNotificationRepository(EmailNotificationJpaRepository emailNotificationJpaRepository,
                                                                   EmailNotificationMapper emailNotificationMapper) {
         return new EmailNotificationRepositoryImpl(emailNotificationJpaRepository, emailNotificationMapper);
+    }
+
+    @Bean
+    public AppConfigRepository appConfigRepository(AppConfigJpaRepository appConfigJpaRepository,
+                                                  AppConfigMapper appConfigMapper) {
+        return new AppConfigRepositoryImpl(appConfigJpaRepository, appConfigMapper);
     }
 }

@@ -3,6 +3,7 @@ package jordan.university.gradproject2.entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Convert;
 import jordan.university.gradproject2.entity.base.WorkflowProcessEntity;
+import jordan.university.gradproject2.validation.ValidationError;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -60,4 +61,10 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
 
     @OneToMany(mappedBy = "activityForm", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmailNotificationEntity> emailNotifications = new ArrayList<>();
+
+    @Transient
+    private List<ValidationError> errors;
+
+    @Column(name = "is_pass_through")
+    private boolean isPassThrough;
 }

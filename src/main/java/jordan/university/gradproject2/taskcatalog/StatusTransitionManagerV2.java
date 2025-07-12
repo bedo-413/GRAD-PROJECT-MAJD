@@ -2,36 +2,32 @@ package jordan.university.gradproject2.taskcatalog;
 
 import jordan.university.gradproject2.enums.Status;
 import jordan.university.gradproject2.enums.WorkflowAction;
+import jordan.university.gradproject2.model.ActivityForm;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static jordan.university.gradproject2.enums.Status.PENDING_DEANSHIP_REVIEW;
 
 public class StatusTransitionManagerV2 {
 
     private static final Map<Status, Map<WorkflowAction, Status>> transitions = Map.ofEntries(
             Map.entry(Status.NEW, Map.of(WorkflowAction.APPROVE, Status.PENDING_SUPERVISOR_REVIEW)),
             Map.entry(Status.PENDING_SUPERVISOR_REVIEW, Map.of(
-                    WorkflowAction.APPROVE, Status.SUPERVISOR_APPROVED,
+                    WorkflowAction.APPROVE, Status.PENDING_FACULTY_REVIEW,
                     WorkflowAction.REJECT, Status.SUPERVISOR_REJECTED
             )),
-            Map.entry(Status.SUPERVISOR_APPROVED, Map.of(WorkflowAction.APPROVE, Status.PENDING_FACULTY_REVIEW)),
-            Map.entry(Status.SUPERVISOR_REJECTED, Map.of(WorkflowAction.APPROVE, Status.REJECTED)),
             Map.entry(Status.PENDING_FACULTY_REVIEW, Map.of(
-                    WorkflowAction.APPROVE, Status.FACULTY_APPROVED,
+                    WorkflowAction.APPROVE, Status.PENDING_UNION_REVIEW,
                     WorkflowAction.REJECT, Status.FACULTY_REJECTED
             )),
-            Map.entry(Status.FACULTY_APPROVED, Map.of(WorkflowAction.APPROVE, Status.PENDING_UNION_REVIEW)),
-            Map.entry(Status.FACULTY_REJECTED, Map.of(WorkflowAction.APPROVE, Status.REJECTED)),
-            Map.entry(Status.PENDING_UNION_REVIEW, Map.of(WorkflowAction.APPROVE, Status.UNION_REVIEWED)),
-            Map.entry(Status.UNION_REVIEWED, Map.of(WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_REVIEW)), //HERE I NEED TO DO A TASK FOR THIS, IN CASE THE BOOLEAN WAS TRUE FOR THIS -> THE TASK WILL BE RUN
+            Map.entry(Status.PENDING_UNION_REVIEW, Map.of(WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_REVIEW)),
             Map.entry(Status.INVESTMENT_CENTER_REVIEW, Map.of(
-                    WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_APPROVED,
+                    WorkflowAction.APPROVE, PENDING_DEANSHIP_REVIEW,
                     WorkflowAction.REJECT, Status.INVESTMENT_CENTER_REJECTED
             )),
-            Map.entry(Status.INVESTMENT_CENTER_APPROVED, Map.of(WorkflowAction.APPROVE, Status.PENDING_DEANSHIP_REVIEW)),
-            Map.entry(Status.INVESTMENT_CENTER_REJECTED, Map.of(WorkflowAction.APPROVE, Status.REJECTED)),
-            Map.entry(Status.PENDING_DEANSHIP_REVIEW, Map.of(
+            Map.entry(PENDING_DEANSHIP_REVIEW, Map.of(
                     WorkflowAction.APPROVE, Status.DEANSHIP_APPROVED,
                     WorkflowAction.REJECT, Status.DEANSHIP_REJECTED
             )),
@@ -39,7 +35,9 @@ public class StatusTransitionManagerV2 {
             Map.entry(Status.DEANSHIP_REJECTED, Map.of(WorkflowAction.APPROVE, Status.REJECTED))
     );
 
-    public static Optional<Status> getNextStatus(Status currentStatus, WorkflowAction action) {
+    public static Optional<Status> getNextStatus(ActivityForm activityForm, Status currentStatus, WorkflowAction action) {
+        if (activityForm.isPassThrough())
+            return Optional.of(PENDING_DEANSHIP_REVIEW);
         return Optional.ofNullable(transitions.getOrDefault(currentStatus, Map.of()).get(action));
     }
 
@@ -68,7 +66,7 @@ public class StatusTransitionManagerV2 {
             Map.entry(Status.FACULTY_APPROVED, List.of(Status.PENDING_UNION_REVIEW)),
             Map.entry(Status.FACULTY_REJECTED, List.of(Status.REJECTED)),
             Map.entry(Status.UNION_REVIEWED, List.of(Status.INVESTMENT_CENTER_REVIEW)), //here i need tasks cuz not all forms need to go to investment center
-            Map.entry(Status.INVESTMENT_CENTER_APPROVED, List.of(Status.PENDING_DEANSHIP_REVIEW)),
+            Map.entry(Status.INVESTMENT_CENTER_APPROVED, List.of(PENDING_DEANSHIP_REVIEW)),
             Map.entry(Status.INVESTMENT_CENTER_REJECTED, List.of(Status.REJECTED)),
             Map.entry(Status.DEANSHIP_APPROVED, List.of(Status.APPROVED)),
             Map.entry(Status.DEANSHIP_REJECTED, List.of(Status.REJECTED))

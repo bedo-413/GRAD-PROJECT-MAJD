@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jordan.university.gradproject2.enums.Status;
 import jordan.university.gradproject2.enums.WorkflowAction;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
+import jordan.university.gradproject2.validation.ValidationError;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,8 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private String rejectionReason;
     private TaskCatalog taskCatalog;
     private List<EmailNotification> emailNotifications = new ArrayList<>();
+    private List<ValidationError> errors;
+    private boolean isPassThrough;
 
     public void run() {
         taskCatalog.run(this, getWorkflowAction());

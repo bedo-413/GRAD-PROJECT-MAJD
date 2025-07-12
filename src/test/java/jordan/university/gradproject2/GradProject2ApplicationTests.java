@@ -56,6 +56,7 @@ class GradProject2ApplicationTests {
             assertTrue(tableNames.contains("USERS"), "Users table should exist");
             assertTrue(tableNames.contains("ACTIVITY_FORMS"), "Activity forms table should exist");
             assertTrue(tableNames.contains("LOCATIONS"), "Locations table should exist");
+            assertTrue(tableNames.contains("WORKING_DAYS"), "Working days table should exist");
         }
     }
 }

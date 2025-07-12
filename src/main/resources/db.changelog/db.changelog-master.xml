@@ -16,5 +16,8 @@
     <include file="classpath:db.changelog/changes/008-add-rejection-reason-and-change-supervisor.xml"/>
     <include file="classpath:db.changelog/changes/009-create-email-notifications-table.xml"/>
     <include file="classpath:db.changelog/changes/010-add-not-null-constraint-to-supervisor-id.xml"/>
+    <include file="classpath:db.changelog/changes/011-create-working-days-table.xml"/>
+    <include file="classpath:db.changelog/changes/012-add-is-pass-through-to-activity-forms.xml"/>
+    <include file="classpath:db.changelog/changes/013-create-app-configs-table.xml"/>
 
 </databaseChangeLog>
