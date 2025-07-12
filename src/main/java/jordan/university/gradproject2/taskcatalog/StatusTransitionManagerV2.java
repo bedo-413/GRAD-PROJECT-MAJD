@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import static jordan.university.gradproject2.enums.Status.PENDING_DEANSHIP_REVIEW;
+import static jordan.university.gradproject2.enums.Status.PENDING_UNION_REVIEW;
+import static jordan.university.gradproject2.enums.WorkflowAction.APPROVE;
+import static jordan.university.gradproject2.enums.WorkflowAction.REJECT;
 
 public class StatusTransitionManagerV2 {
 
@@ -16,20 +19,19 @@ public class StatusTransitionManagerV2 {
             Map.entry(Status.NEW, Map.of(WorkflowAction.APPROVE, Status.PENDING_SUPERVISOR_REVIEW)),
             Map.entry(Status.PENDING_SUPERVISOR_REVIEW, Map.of(
                     WorkflowAction.APPROVE, Status.PENDING_FACULTY_REVIEW,
-                    WorkflowAction.REJECT, Status.SUPERVISOR_REJECTED
+                    REJECT, Status.SUPERVISOR_REJECTED
             )),
             Map.entry(Status.PENDING_FACULTY_REVIEW, Map.of(
-                    WorkflowAction.APPROVE, Status.PENDING_UNION_REVIEW,
-                    WorkflowAction.REJECT, Status.FACULTY_REJECTED
+                    WorkflowAction.APPROVE, PENDING_UNION_REVIEW,
+                    REJECT, Status.FACULTY_REJECTED
             )),
-            Map.entry(Status.PENDING_UNION_REVIEW, Map.of(WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_REVIEW)),
+            Map.entry(PENDING_UNION_REVIEW, Map.of(WorkflowAction.APPROVE, Status.INVESTMENT_CENTER_REVIEW)),
             Map.entry(Status.INVESTMENT_CENTER_REVIEW, Map.of(
-                    WorkflowAction.APPROVE, PENDING_DEANSHIP_REVIEW,
-                    WorkflowAction.REJECT, Status.INVESTMENT_CENTER_REJECTED
+                    WorkflowAction.APPROVE, PENDING_DEANSHIP_REVIEW
             )),
             Map.entry(PENDING_DEANSHIP_REVIEW, Map.of(
                     WorkflowAction.APPROVE, Status.DEANSHIP_APPROVED,
-                    WorkflowAction.REJECT, Status.DEANSHIP_REJECTED
+                    REJECT, Status.DEANSHIP_REJECTED
             )),
             Map.entry(Status.DEANSHIP_APPROVED, Map.of(WorkflowAction.APPROVE, Status.APPROVED)),
             Map.entry(Status.DEANSHIP_REJECTED, Map.of(WorkflowAction.APPROVE, Status.REJECTED))
@@ -38,6 +40,11 @@ public class StatusTransitionManagerV2 {
     public static Optional<Status> getNextStatus(ActivityForm activityForm, Status currentStatus, WorkflowAction action) {
         if (activityForm.isPassThrough())
             return Optional.of(PENDING_DEANSHIP_REVIEW);
+        if (PENDING_UNION_REVIEW.equals(currentStatus) && APPROVE.equals(action)) {
+            return Optional.of(
+                    activityForm.isHasSponsors() ? Status.INVESTMENT_CENTER_REVIEW : PENDING_DEANSHIP_REVIEW
+            );
+        }
         return Optional.ofNullable(transitions.getOrDefault(currentStatus, Map.of()).get(action));
     }
 
@@ -63,7 +70,7 @@ public class StatusTransitionManagerV2 {
             Map.entry(Status.PENDING_SUPERVISOR_REVIEW, List.of(Status.SUPERVISOR_APPROVED)),
             Map.entry(Status.SUPERVISOR_APPROVED, List.of(Status.PENDING_FACULTY_REVIEW)),
             Map.entry(Status.SUPERVISOR_REJECTED, List.of(Status.REJECTED)),
-            Map.entry(Status.FACULTY_APPROVED, List.of(Status.PENDING_UNION_REVIEW)),
+            Map.entry(Status.FACULTY_APPROVED, List.of(PENDING_UNION_REVIEW)),
             Map.entry(Status.FACULTY_REJECTED, List.of(Status.REJECTED)),
             Map.entry(Status.UNION_REVIEWED, List.of(Status.INVESTMENT_CENTER_REVIEW)), //here i need tasks cuz not all forms need to go to investment center
             Map.entry(Status.INVESTMENT_CENTER_APPROVED, List.of(PENDING_DEANSHIP_REVIEW)),

@@ -2,6 +2,7 @@ package jordan.university.gradproject2.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Convert;
+import jordan.university.gradproject2.converter.StringListConverter;
 import jordan.university.gradproject2.entity.base.WorkflowProcessEntity;
 import jordan.university.gradproject2.validation.ValidationError;
 import lombok.Data;
@@ -38,7 +39,7 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
     private String organizingEntity;
 
     @Column(name = "required_services", columnDefinition = "TEXT")
-    @Convert(converter = jordan.university.gradproject2.converter.StringListConverter.class)
+    @Convert(converter = StringListConverter.class)
     private List<String> requiredServices;
 
     @Column(name = "location", nullable = false)
@@ -67,4 +68,11 @@ public class ActivityFormEntity extends WorkflowProcessEntity {
 
     @Column(name = "is_pass_through")
     private boolean isPassThrough;
+
+    @Column(name = "has_sponsors")
+    private boolean hasSponsors;
+
+    @Column(name = "sponsors", columnDefinition = "TEXT")
+    @Convert(converter = StringListConverter.class)
+    private List<String> sponsors;
 }

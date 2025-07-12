@@ -29,4 +29,6 @@ public class ActivityFormRequest extends WorkflowProcess<Status, WorkflowAction>
     private String rejectionReason;
     private List<ValidationError> errors;
     private boolean isPassThrough;
+    private boolean hasSponsors;
+    private List<String> sponsors;
 }

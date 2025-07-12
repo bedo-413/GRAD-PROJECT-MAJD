@@ -29,6 +29,7 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private User supervisor;
     private String activityType;
     private LocalDate activityDate;
+    private LocalDate createdAt;
     private String organizingEntity;
     private List<String> requiredServices;
     private String location;
@@ -41,6 +42,8 @@ public class ActivityForm extends WorkflowProcess<Status, WorkflowAction> {
     private List<EmailNotification> emailNotifications = new ArrayList<>();
     private List<ValidationError> errors;
     private boolean isPassThrough;
+    private boolean hasSponsors;
+    private List<String> sponsors;
 
     public void run() {
         taskCatalog.run(this, getWorkflowAction());

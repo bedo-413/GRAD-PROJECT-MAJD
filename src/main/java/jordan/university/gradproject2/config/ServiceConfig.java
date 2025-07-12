@@ -14,6 +14,7 @@ import jordan.university.gradproject2.security.SecurityUtilService;
 import jordan.university.gradproject2.service.*;
 import jordan.university.gradproject2.service.logger.ActivityFormLoggerService;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
+import jordan.university.gradproject2.transformer.ActivityFormTransformer;
 import jordan.university.gradproject2.validation.ValidationModel;
 import jordan.university.gradproject2.validation.service.ValidationService;
 import org.springframework.context.annotation.Bean;
@@ -35,10 +36,11 @@ public class ServiceConfig {
                                                    ValidationService validationService,
                                                    ValidationModel activityFormCreationValidation,
                                                    UserRepository userRepository,
-                                                   GlobalConfiguration globalConfiguration) {
+                                                   GlobalConfiguration globalConfiguration,
+                                                   ActivityFormTransformer activityFormTransformer) {
         return new ActivityFormService(activityFormRepository, userJpaRepository, activityFormMapper, activityFormJpaRepository,
                 taskCatalog, formLogRepository, activityFormLoggerService, emailNotificationService, userMapper,
-                validationService, activityFormCreationValidation, userRepository, globalConfiguration);
+                validationService, activityFormCreationValidation, userRepository, globalConfiguration, activityFormTransformer);
     }
 
     @Bean

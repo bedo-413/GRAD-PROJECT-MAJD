@@ -18,6 +18,7 @@ import jordan.university.gradproject2.resource.ActivityFormLogResource;
 import jordan.university.gradproject2.resource.ActivityFormResource;
 import jordan.university.gradproject2.service.logger.ActivityFormLoggerService;
 import jordan.university.gradproject2.taskcatalog.TaskCatalog;
+import jordan.university.gradproject2.transformer.ActivityFormTransformer;
 import jordan.university.gradproject2.validation.ValidationError;
 import jordan.university.gradproject2.validation.ValidationModel;
 import jordan.university.gradproject2.validation.service.ValidationService;
@@ -44,6 +45,7 @@ public class ActivityFormService {
     private final ValidationModel activityFormCreationValidation;
     private final UserRepository userRepository;
     private final GlobalConfiguration globalConfiguration;
+    private final ActivityFormTransformer activityFormTransformer;
 
     public ActivityFormService(ActivityFormRepository activityFormRepository,
                                UserJpaRepository userJpaRepository,
@@ -55,7 +57,7 @@ public class ActivityFormService {
                                EmailNotificationService emailNotificationService,
                                UserMapper userMapper,
                                ValidationService validationService,
-                               ValidationModel activityFormCreationValidation, UserRepository userRepository, GlobalConfiguration globalConfiguration) {
+                               ValidationModel activityFormCreationValidation, UserRepository userRepository, GlobalConfiguration globalConfiguration, ActivityFormTransformer activityFormTransformer) {
         this.activityFormRepository = activityFormRepository;
         this.userJpaRepository = userJpaRepository;
         this.activityFormMapper = activityFormMapper;
@@ -69,6 +71,7 @@ public class ActivityFormService {
         this.activityFormCreationValidation = activityFormCreationValidation;
         this.userRepository = userRepository;
         this.globalConfiguration = globalConfiguration;
+        this.activityFormTransformer = activityFormTransformer;
     }
 
 

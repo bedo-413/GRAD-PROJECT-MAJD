@@ -36,14 +36,14 @@ public class FormStatusExpirationJob {
         // Process forms in PENDING_SUPERVISOR_REVIEW for more than 2 days
         processSupervisorReviewForms();
 
-        // Process forms in PENDING_FACULTY_REVIEW or PENDING_UNION_REVIEW for more than 2 days
+        // Process forms in PENDING_FACULTY_REVIEW or PENDING_UNION_REVIEW for more than 3 days
         processFacultyAndUnionReviewForms();
 
         log.info("Completed form status expiration job");
     }
 
     private void processSupervisorReviewForms() {
-        LocalDateTime twoDaysAgo = LocalDateTime.now().minusDays(3);
+        LocalDateTime twoDaysAgo = LocalDateTime.now().minusDays(2);
 
         Specification<ActivityFormEntity> spec = (root, query, cb) -> 
             cb.and(
@@ -64,7 +64,7 @@ public class FormStatusExpirationJob {
     }
 
     private void processFacultyAndUnionReviewForms() {
-        LocalDateTime twoDaysAgo = LocalDateTime.now().minusDays(2);
+        LocalDateTime threeDaysAgo = LocalDateTime.now().minusDays(3);
 
         Specification<ActivityFormEntity> spec = (root, query, cb) -> 
             cb.and(
@@ -72,7 +72,7 @@ public class FormStatusExpirationJob {
                     cb.equal(root.get("status"), Status.PENDING_FACULTY_REVIEW.name()),
                     cb.equal(root.get("status"), Status.PENDING_UNION_REVIEW.name())
                 ),
-                cb.lessThan(root.get("lastUpdatedAt"), twoDaysAgo)
+                cb.lessThan(root.get("lastUpdatedAt"), threeDaysAgo)
             );
 
         List<ActivityFormEntity> expiredForms = activityFormJpaRepository.findAll(spec);

@@ -25,7 +25,9 @@ public class ActivityFormResource extends WorkflowResource {
     private String phoneNumber;
     private String description;
     private String rejectionReason;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     private List<ValidationError> errors;
     private boolean isPassThrough;
+    private boolean hasSponsors;
+    private List<String> sponsors;
 }
