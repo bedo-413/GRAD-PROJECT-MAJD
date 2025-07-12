@@ -1,5 +1,6 @@
 package jordan.university.gradproject2.config;
 
+import jordan.university.gradproject2.contract.GlobalConfiguration;
 import jordan.university.gradproject2.transformer.ActivityFormTransformer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 class TransformerConfig {
 
     @Bean
-    public ActivityFormTransformer activityFormTransformer() {
-        return new ActivityFormTransformer();
+    public ActivityFormTransformer activityFormTransformer(GlobalConfiguration globalConfiguration) {
+        return new ActivityFormTransformer(globalConfiguration);
     }
 }

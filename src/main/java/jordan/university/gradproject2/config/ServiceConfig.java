@@ -1,6 +1,5 @@
 package jordan.university.gradproject2.config;
 
-import jordan.university.gradproject2.contract.GlobalConfiguration;
 import jordan.university.gradproject2.mapper.ActivityFormMapper;
 import jordan.university.gradproject2.mapper.AppConfigMapper;
 import jordan.university.gradproject2.mapper.UserMapper;
@@ -8,7 +7,6 @@ import jordan.university.gradproject2.repository.activity.ActivityFormJpaReposit
 import jordan.university.gradproject2.repository.activity.ActivityFormRepository;
 import jordan.university.gradproject2.repository.activitylog.ActivityFormLogRepository;
 import jordan.university.gradproject2.repository.appconfig.AppConfigRepository;
-import jordan.university.gradproject2.repository.user.UserJpaRepository;
 import jordan.university.gradproject2.repository.user.UserRepository;
 import jordan.university.gradproject2.security.SecurityUtilService;
 import jordan.university.gradproject2.service.*;
@@ -25,22 +23,18 @@ public class ServiceConfig {
 
     @Bean
     public ActivityFormService activityFormService(ActivityFormRepository activityFormRepository,
-                                                   UserJpaRepository userJpaRepository,
                                                    ActivityFormMapper activityFormMapper,
                                                    ActivityFormJpaRepository activityFormJpaRepository,
                                                    TaskCatalog taskCatalog,
                                                    ActivityFormLogRepository formLogRepository,
                                                    ActivityFormLoggerService activityFormLoggerService,
                                                    EmailNotificationService emailNotificationService,
-                                                   UserMapper userMapper,
                                                    ValidationService validationService,
                                                    ValidationModel activityFormCreationValidation,
-                                                   UserRepository userRepository,
-                                                   GlobalConfiguration globalConfiguration,
                                                    ActivityFormTransformer activityFormTransformer) {
-        return new ActivityFormService(activityFormRepository, userJpaRepository, activityFormMapper, activityFormJpaRepository,
-                taskCatalog, formLogRepository, activityFormLoggerService, emailNotificationService, userMapper,
-                validationService, activityFormCreationValidation, userRepository, globalConfiguration, activityFormTransformer);
+        return new ActivityFormService(activityFormRepository, activityFormMapper, activityFormJpaRepository,
+                taskCatalog, formLogRepository, activityFormLoggerService, emailNotificationService,
+                validationService, activityFormCreationValidation, activityFormTransformer);
     }
 
     @Bean

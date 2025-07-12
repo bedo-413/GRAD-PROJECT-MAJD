@@ -4,5 +4,6 @@ public enum WorkflowAction {
     APPROVE,
     REJECT,
     FORWARD,
-    CREATE
+    CREATE,
+    CANCEL
 }
